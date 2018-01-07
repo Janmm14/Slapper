@@ -16,7 +16,7 @@ import java.io.IOException;
 
 @PluginName( "Slapper" )
 @Version( minor = 1, major = 0)
-public class Slapper extends Plugin implements EventListener {
+public class Slapper extends Plugin {
 
     public static String prefix = "§f[§eSlapper§f] ";
 
@@ -36,7 +36,6 @@ public class Slapper extends Plugin implements EventListener {
         slapperManager = new SlapperManager();
         slapperManager.loadEntitys();
 
-        registerListener( this );
         registerListener( new EntityDamageByEntityListener() );
     }
 
@@ -55,12 +54,6 @@ public class Slapper extends Plugin implements EventListener {
 
     public static SlapperManager getSlapperManager() {
         return slapperManager;
-    }
-
-    //Test
-    @EventHandler
-    public void dd( PlayerJoinEvent e ){
-        e.getPlayer().setGamemode( Gamemode.CREATIVE );
     }
 
 }

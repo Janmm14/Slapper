@@ -11,3 +11,6 @@ Beispiel:
 # Permissions
 - Slapper.SpawnEntity
 - Slapper.RemoveEntity
+
+# Download
+https://github.com/LucGamesYT/Slapper/releases

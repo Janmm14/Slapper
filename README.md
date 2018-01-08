@@ -15,7 +15,6 @@ Beispiel:
 # TODO
 - Command: /slapper edit
 - Command / Funktion speichern wenn man ein Entity schlägt
-- Eine Funktion womit man ein Entity editieren kann
 - A language system (German, English and more)
 
 # Download

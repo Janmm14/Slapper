@@ -4,6 +4,9 @@ sie geschlagen werden.
 
 # Commands
 - /slapper [type] [nameTag] [showNameTag]
+- /slapper remove
+- /slapper getentity
+- /slapper edit [nameTag] [showNameTag]
 
 Beispiel:
 - /slapper Human oder /slapper Human TTT true
@@ -11,9 +14,10 @@ Beispiel:
 # Permissions
 - Slapper.SpawnEntity
 - Slapper.RemoveEntity
+- Slapper.GetEntity
+- Slapper.EditSlapper
 
 # TODO
-- Command: /slapper edit
 - Command / Funktion speichern wenn man ein Entity schlägt
 - A language system (German, English and more)
 

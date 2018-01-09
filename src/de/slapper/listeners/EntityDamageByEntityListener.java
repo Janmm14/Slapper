@@ -45,6 +45,14 @@ public class EntityDamageByEntityListener implements EventListener {
                 }
             }
         }
+        if(Slapper.getSlapperManager().editEntity.contains( player )){
+            e.setCancelled( true );
+            Slapper.getSlapperManager().getEntity.put( player, entity );
+            if(entity instanceof EntityHuman){
+                Slapper.getSlapperManager().getSkin.put( entity, ((EntityHuman)entity).getSkin() );
+            }
+            player.sendMessage( Slapper.prefix + "§7Du hast das §eEntity §7 erfolgreich gespeichert" );
+        }
     }
 
 }

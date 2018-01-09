@@ -22,7 +22,11 @@ public class SlapperManager {
 
     private File file = new File( Slapper.getInstance().getDataFolder() + "/Skins/" );
     public Map<Long, SlapperData> slapperDatas = new HashMap<>();
+    public Map<EntityPlayer, Entity> getEntity = new HashMap<>();
+    public Map<Entity, PlayerSkin> getSkin = new HashMap<>();
+
     public ArrayList<EntityPlayer> removeEntity = new ArrayList<>();
+    public ArrayList<EntityPlayer> editEntity = new ArrayList<>();
 
     public SlapperManager() {
         if(!file.exists()){

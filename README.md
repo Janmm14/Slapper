@@ -12,5 +12,10 @@ Beispiel:
 - Slapper.SpawnEntity
 - Slapper.RemoveEntity
 
+# TODO
+- Command: /slapper edit
+- Command / Funktion speichern wenn man ein Entity schlägt
+- A language system (German, English and more)
+
 # Download
 https://github.com/LucGamesYT/Slapper/releases

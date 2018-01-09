@@ -17,7 +17,7 @@ public class CommandGetEntity extends Command {
     public CommandOutput execute( EntityPlayer player, String s, Map<String, Object> map ) {
 
         if( Slapper.getConfig().isUsePermissions() ){
-            if(player.hasPermission( "Slapper.GetEntityID" )){
+            if(player.hasPermission( "Slapper.GetEntity" )){
 
                 if(!Slapper.getSlapperManager().editEntity.contains( player )){
                     Slapper.getSlapperManager().editEntity.add( player );

@@ -22,26 +22,28 @@ public class EntityDamageByEntityListener implements EventListener {
             SlapperData slapperData = Slapper.getSlapperManager().slapperDatas.get( entity.getEntityId() );
             Slapper.getConfig().list = new ArrayList<>( Slapper.getConfig().getList() );
 
-            if(entity instanceof EntityHuman){
-                if(Slapper.getConfig().getList().contains( slapperData.getId() + "~" + slapperData.getSpawnedBy() + "~" + slapperData.getType() + "~" + slapperData.getWorld() + "~" + slapperData.getX() + "~" + slapperData.getY() + "~" + slapperData.getZ()
-                        + "~" + slapperData.getYaw() + "~" + slapperData.getPitch() + "~" + slapperData.isShowNameTag() + "~" + slapperData.getNameTag()  + "~" + slapperData.getItemCalssName() + "~" + slapperData.getSlotId() )){
+            if(!(entity instanceof EntityPlayer)){
+                if(entity instanceof EntityHuman){
+                    if(Slapper.getConfig().getList().contains( slapperData.getId() + "~" + slapperData.getSpawnedBy() + "~" + slapperData.getType() + "~" + slapperData.getWorld() + "~" + slapperData.getX() + "~" + slapperData.getY() + "~" + slapperData.getZ()
+                            + "~" + slapperData.getYaw() + "~" + slapperData.getPitch() + "~" + slapperData.isShowNameTag() + "~" + slapperData.getNameTag()  + "~" + slapperData.getItemCalssName() + "~" + slapperData.getSlotId() )){
 
-                    e.setCancelled( true );
-                    Slapper.getConfig().getList().remove(  slapperData.getId() + "~" + slapperData.getSpawnedBy() + "~" + slapperData.getType() + "~" + slapperData.getWorld() + "~" + slapperData.getX() + "~" + slapperData.getY() + "~" + slapperData.getZ()
-                            + "~" + slapperData.getYaw() + "~" + slapperData.getPitch() + "~" + slapperData.isShowNameTag() + "~" + slapperData.getNameTag()  + "~" + slapperData.getItemCalssName() + "~" + slapperData.getSlotId() );
-                    Slapper.getConfig().save();
-                    entity.despawn();
-                    player.sendMessage( Slapper.prefix + "§7Das §eEntity §7wurde erfolgreich entfernt" );
-                }
-            }else{
-                if(Slapper.getConfig().getList().contains( slapperData.getId() + "~" + slapperData.getSpawnedBy() + "~" + slapperData.getType() + "~" + slapperData.getWorld() + "~" + slapperData.getX() + "~" + slapperData.getY() + "~" + slapperData.getZ()
-                        + "~" + slapperData.getYaw() + "~" + slapperData.getPitch() + "~" + slapperData.isShowNameTag() + "~" + slapperData.getNameTag()) ){
-                    e.setCancelled( true );
-                    Slapper.getConfig().getList().remove(  slapperData.getId() + "~" + slapperData.getSpawnedBy() + "~" + slapperData.getType() + "~" + slapperData.getWorld() + "~" + slapperData.getX() + "~" + slapperData.getY() + "~" + slapperData.getZ()
-                            + "~" + slapperData.getYaw() + "~" + slapperData.getPitch() + "~" + slapperData.isShowNameTag() + "~" + slapperData.getNameTag());
-                    Slapper.getConfig().save();
-                    entity.despawn();
-                    player.sendMessage( Slapper.prefix + "§7Das §eEntity §7wurde erfolgreich entfernt" );
+                        e.setCancelled( true );
+                        Slapper.getConfig().getList().remove(  slapperData.getId() + "~" + slapperData.getSpawnedBy() + "~" + slapperData.getType() + "~" + slapperData.getWorld() + "~" + slapperData.getX() + "~" + slapperData.getY() + "~" + slapperData.getZ()
+                                + "~" + slapperData.getYaw() + "~" + slapperData.getPitch() + "~" + slapperData.isShowNameTag() + "~" + slapperData.getNameTag()  + "~" + slapperData.getItemCalssName() + "~" + slapperData.getSlotId() );
+                        Slapper.getConfig().save();
+                        entity.despawn();
+                        player.sendMessage( Slapper.prefix + "§7Das §eEntity §7wurde erfolgreich entfernt" );
+                    }
+                }else{
+                    if(Slapper.getConfig().getList().contains( slapperData.getId() + "~" + slapperData.getSpawnedBy() + "~" + slapperData.getType() + "~" + slapperData.getWorld() + "~" + slapperData.getX() + "~" + slapperData.getY() + "~" + slapperData.getZ()
+                            + "~" + slapperData.getYaw() + "~" + slapperData.getPitch() + "~" + slapperData.isShowNameTag() + "~" + slapperData.getNameTag()) ){
+                        e.setCancelled( true );
+                        Slapper.getConfig().getList().remove(  slapperData.getId() + "~" + slapperData.getSpawnedBy() + "~" + slapperData.getType() + "~" + slapperData.getWorld() + "~" + slapperData.getX() + "~" + slapperData.getY() + "~" + slapperData.getZ()
+                                + "~" + slapperData.getYaw() + "~" + slapperData.getPitch() + "~" + slapperData.isShowNameTag() + "~" + slapperData.getNameTag());
+                        Slapper.getConfig().save();
+                        entity.despawn();
+                        player.sendMessage( Slapper.prefix + "§7Das §eEntity §7wurde erfolgreich entfernt" );
+                    }
                 }
             }
         }

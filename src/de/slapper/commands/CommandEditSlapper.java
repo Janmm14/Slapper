@@ -70,6 +70,10 @@ public class CommandEditSlapper extends Command {
                             editEntity.setTicking( false );
                             editEntity.spawn( location );
 
+                            Slapper.getSlapperManager().getSkin.remove( player );
+                            Slapper.getSlapperManager().getEntity.remove( player );
+                            Slapper.getSlapperManager().editEntity.remove( player );
+
                             player.sendMessage( Slapper.prefix + "§7Du hast das Entity §e" + oldSlapperData.getType() + " §7erfolgreich editiert" );
                         }
                     }else{
@@ -94,6 +98,9 @@ public class CommandEditSlapper extends Command {
                             editEntity.setNameTagAlwaysVisible( showNameTag );
                             editEntity.setTicking( false );
                             editEntity.spawn( location );
+
+                            Slapper.getSlapperManager().getEntity.remove( player );
+                            Slapper.getSlapperManager().editEntity.remove( player );
 
                             player.sendMessage( Slapper.prefix + "§7Du hast das Entity §e" + oldSlapperData.getType() + " §7erfolgreich editiert" );
                         }
@@ -142,6 +149,10 @@ public class CommandEditSlapper extends Command {
                         editEntity.setTicking( false );
                         editEntity.spawn( location );
 
+                        Slapper.getSlapperManager().getSkin.remove( player );
+                        Slapper.getSlapperManager().getEntity.remove( player );
+                        Slapper.getSlapperManager().editEntity.remove( player );
+
                         player.sendMessage( Slapper.prefix + "§7Du hast das Entity §e" + oldSlapperData.getType() + " §7erfolgreich editiert" );
                     }
                 }else{
@@ -166,6 +177,9 @@ public class CommandEditSlapper extends Command {
                         editEntity.setNameTagAlwaysVisible( showNameTag );
                         editEntity.setTicking( false );
                         editEntity.spawn( location );
+
+                        Slapper.getSlapperManager().getEntity.remove( player );
+                        Slapper.getSlapperManager().editEntity.remove( player );
 
                         player.sendMessage( Slapper.prefix + "§7Du hast das Entity §e" + oldSlapperData.getType() + " §7erfolgreich editiert" );
                     }

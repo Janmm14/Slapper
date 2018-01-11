@@ -33,7 +33,6 @@ A: Als erstes musst du im Chat "/slapper getentity" eingeben und dann das Entity
 
 # TODO
 - Command / Funktion speichern wenn man ein Entity schlägt
-- A language system (German, English and more)
 - NameTags für Monster und Tiere
 
 # Download

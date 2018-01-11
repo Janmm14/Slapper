@@ -37,7 +37,7 @@ public class CommandSlapperShulker extends Command {
                 Slapper.getSlapperManager().spawnEntity( type, player, nameTag, showNameTag, player.getLocation() );
 
             }else{
-                player.sendMessage( "§cDafür hast du keine Rechte!" );
+                player.sendMessage( Slapper.getLanguage().getNoPermissions() );
             }
         }else{
             String nameTag = (String) map.getOrDefault( "nameTag", type.getName());

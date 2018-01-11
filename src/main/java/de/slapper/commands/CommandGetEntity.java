@@ -21,22 +21,22 @@ public class CommandGetEntity extends Command {
 
                 if(!Slapper.getSlapperManager().editEntity.contains( player )){
                     Slapper.getSlapperManager().editEntity.add( player );
-                    player.sendMessage(Slapper.prefix + "§7Schlag nun ein Entity um es zu speichern" );
+                    player.sendMessage(Slapper.prefix + Slapper.getLanguage().getSaveEntityInfo1() );
                 }else{
                     Slapper.getSlapperManager().editEntity.remove( player );
-                    player.sendMessage( Slapper.prefix + "§cDu kannst nun nicht mehr das Entity speichern" );
+                    player.sendMessage( Slapper.prefix + Slapper.getLanguage().getSaveEntityInfo2() );
                 }
 
             }else{
-                player.sendMessage( "§cDafür hast du keine Rechte!" );
+                player.sendMessage( Slapper.getLanguage().getNoPermissions() );
             }
         }else{
             if(!Slapper.getSlapperManager().editEntity.contains( player )){
                 Slapper.getSlapperManager().editEntity.add( player );
-                player.sendMessage(Slapper.prefix + "§7Schlag nun ein Entity um es zu speichern" );
+                player.sendMessage(Slapper.prefix + Slapper.getLanguage().getSaveEntityInfo1() );
             }else{
                 Slapper.getSlapperManager().editEntity.remove( player );
-                player.sendMessage( Slapper.prefix + "§cDu kannst nun nicht mehr das Entity speichern" );
+                player.sendMessage( Slapper.prefix + Slapper.getLanguage().getSaveEntityInfo2() );
             }
         }
 

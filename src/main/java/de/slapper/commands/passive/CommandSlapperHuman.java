@@ -42,7 +42,7 @@ public class CommandSlapperHuman extends Command {
                 Slapper.getSlapperManager().spawnHuman( type, player, nameTag, showNameTag, player.getLocation(), player.getSkin(), player.getInventory().getItemInHandSlot(), (ItemStack) player.getInventory().getItemInHand() );
 
             }else{
-                player.sendMessage( "§cDafür hast du keine Rechte!" );
+                player.sendMessage( Slapper.getLanguage().getNoPermissions() );
             }
         }else{
             String nameTag = (String) map.getOrDefault( "nametag", player.getNameTag());

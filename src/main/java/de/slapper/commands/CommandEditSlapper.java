@@ -74,7 +74,7 @@ public class CommandEditSlapper extends Command {
                             Slapper.getSlapperManager().getEntity.remove( player );
                             Slapper.getSlapperManager().editEntity.remove( player );
 
-                            player.sendMessage( Slapper.prefix + "§7Du hast das Entity §e" + oldSlapperData.getType() + " §7erfolgreich editiert" );
+                            player.sendMessage( Slapper.prefix + Slapper.getLanguage().getEditEntitySuccessful().replace( "[type]", oldSlapperData.getType() ) );
                         }
                     }else{
                         if(Slapper.getConfig().getList().contains( oldSlapperData.getId() + "~" +oldSlapperData.getSpawnedBy() + "~" + oldSlapperData.getType() + "~" +  oldSlapperData.getWorld() + "~" + oldSlapperData.getX() + "~" +
@@ -102,15 +102,15 @@ public class CommandEditSlapper extends Command {
                             Slapper.getSlapperManager().getEntity.remove( player );
                             Slapper.getSlapperManager().editEntity.remove( player );
 
-                            player.sendMessage( Slapper.prefix + "§7Du hast das Entity §e" + oldSlapperData.getType() + " §7erfolgreich editiert" );
+                            player.sendMessage( Slapper.prefix + Slapper.getLanguage().getEditEntitySuccessful().replace( "[type]", oldSlapperData.getType() ) );
                         }
                     }
                 }else{
-                    player.sendMessage( Slapper.prefix + "§cBitte benutze den Command /slapper getentity und schlag ein Entity und versuche es erneut " );
+                    player.sendMessage( Slapper.prefix + Slapper.getLanguage().getEditEntityCommandHelp() );
                 }
 
             }else{
-                player.sendMessage( "§cDafür hast du keine Rechte!" );
+                player.sendMessage( Slapper.getLanguage().getNoPermissions() );
             }
         }else{
 
@@ -153,7 +153,7 @@ public class CommandEditSlapper extends Command {
                         Slapper.getSlapperManager().getEntity.remove( player );
                         Slapper.getSlapperManager().editEntity.remove( player );
 
-                        player.sendMessage( Slapper.prefix + "§7Du hast das Entity §e" + oldSlapperData.getType() + " §7erfolgreich editiert" );
+                        player.sendMessage( Slapper.prefix + Slapper.getLanguage().getEditEntitySuccessful().replace( "[type]", oldSlapperData.getType() ) );
                     }
                 }else{
                     if(Slapper.getConfig().getList().contains( oldSlapperData.getId() + "~" +oldSlapperData.getSpawnedBy() + "~" + oldSlapperData.getType() + "~" +  oldSlapperData.getWorld() + "~" + oldSlapperData.getX() + "~" +
@@ -181,11 +181,11 @@ public class CommandEditSlapper extends Command {
                         Slapper.getSlapperManager().getEntity.remove( player );
                         Slapper.getSlapperManager().editEntity.remove( player );
 
-                        player.sendMessage( Slapper.prefix + "§7Du hast das Entity §e" + oldSlapperData.getType() + " §7erfolgreich editiert" );
+                        player.sendMessage( Slapper.prefix + Slapper.getLanguage().getEditEntitySuccessful().replace( "[type]", oldSlapperData.getType() ) );
                     }
                 }
             }else{
-                player.sendMessage( Slapper.prefix + "§cBitte benutze den Command /slapper getentity und schlag ein Entity und versuche es erneut " );
+                player.sendMessage( Slapper.prefix + Slapper.getLanguage().getEditEntityCommandHelp() );
             }
 
         }

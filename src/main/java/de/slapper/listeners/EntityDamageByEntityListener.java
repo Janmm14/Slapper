@@ -32,7 +32,7 @@ public class EntityDamageByEntityListener implements EventListener {
                                 + "~" + slapperData.getYaw() + "~" + slapperData.getPitch() + "~" + slapperData.isShowNameTag() + "~" + slapperData.getNameTag()  + "~" + slapperData.getItemCalssName() + "~" + slapperData.getSlotId() );
                         Slapper.getConfig().save();
                         entity.despawn();
-                        player.sendMessage( Slapper.prefix + "§7Das §eEntity §7wurde erfolgreich entfernt" );
+                        player.sendMessage( Slapper.prefix + Slapper.getLanguage().getRemoveEntity() );
                     }
                 }else{
                     if(Slapper.getConfig().getList().contains( slapperData.getId() + "~" + slapperData.getSpawnedBy() + "~" + slapperData.getType() + "~" + slapperData.getWorld() + "~" + slapperData.getX() + "~" + slapperData.getY() + "~" + slapperData.getZ()
@@ -42,7 +42,7 @@ public class EntityDamageByEntityListener implements EventListener {
                                 + "~" + slapperData.getYaw() + "~" + slapperData.getPitch() + "~" + slapperData.isShowNameTag() + "~" + slapperData.getNameTag());
                         Slapper.getConfig().save();
                         entity.despawn();
-                        player.sendMessage( Slapper.prefix + "§7Das §eEntity §7wurde erfolgreich entfernt" );
+                        player.sendMessage( Slapper.prefix + Slapper.getLanguage().getRemoveEntity() );
                     }
                 }
             }
@@ -53,7 +53,7 @@ public class EntityDamageByEntityListener implements EventListener {
             if(entity instanceof EntityHuman){
                 Slapper.getSlapperManager().getSkin.put( entity, ((EntityHuman)entity).getSkin() );
             }
-            player.sendMessage( Slapper.prefix + "§7Du hast das §eEntity §7 erfolgreich gespeichert" );
+            player.sendMessage( Slapper.prefix + Slapper.getLanguage().getSaveEntitySuccessful() );
         }
     }
 

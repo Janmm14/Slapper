@@ -2,7 +2,6 @@ package de.slapper.manager;
 
 import de.slapper.Slapper;
 import de.slapper.events.PlayerSpawnSlapperEntity;
-import de.slapper.language.Language;
 import io.gomint.GoMint;
 import io.gomint.entity.Entity;
 import io.gomint.entity.EntityPlayer;
@@ -129,7 +128,7 @@ public class SlapperManager {
         id+=1;
 
         Slapper.getSlapperManager().saveHuman( player, type, showNameTag, nameTag );
-        player.sendMessage( Slapper.prefix + "§7Du hast das Entity §e" + type.getName() + " §7gespawnt" );
+        player.sendMessage( Slapper.prefix + Slapper.getLanguage().getSpawnEntity().replace( "[type]", type.getName() ) );
 
         slapperDatas.put( entity.getEntityId(), new SlapperData( id , player.getName(), type.getName(), location.getWorld().getWorldName(), location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch(), showNameTag, nameTag, itemStack.getClass().getSimpleName(), slotID ));
 
@@ -139,7 +138,7 @@ public class SlapperManager {
 
     public void saveMobs( EntityPlayer player, EntityTypes type, Boolean showNameTag, String nameTag ){
         //Save locations from entity
-        Slapper.getConfig().list = new ArrayList<>( Slapper.getConfig().getList() );
+        Slapper.getConfig().list = new ArrayList<String>( Slapper.getConfig().getList() );
         int id = Slapper.getConfig().getList().size();
 
         if(Slapper.getConfig().getList().isEmpty()){

@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Slapper:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Slapper_jar</output-path>
+    <root id="archive" name="Slapper.jar">
+      <element id="module-output" name="Slapper" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../GoMint-genazt/GoMint.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

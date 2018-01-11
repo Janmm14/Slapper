@@ -20,21 +20,21 @@ public class CommandRemoveEntity extends Command {
             if(player.hasPermission( "Slapper.RemoveEntity" )){
                 if(!Slapper.getSlapperManager().removeEntity.contains( player )){
                     Slapper.getSlapperManager().removeEntity.add( player );
-                    player.sendMessage( Slapper.prefix + "§7Schlage das §eEntity §7was du entfernen willst" );
+                    player.sendMessage( Slapper.prefix + Slapper.getLanguage().getRemoveEntityInfo1() );
                 }else{
                     Slapper.getSlapperManager().removeEntity.remove( player );
-                    player.sendMessage( Slapper.prefix + "§cDu kannst nun kein §eEntity §cmehr entfernen" );
+                    player.sendMessage( Slapper.prefix + Slapper.getLanguage().getRemoveEntityInfo2() );
                 }
             }else{
-                player.sendMessage( "§cDafür hast du keine Rechte!" );
+                player.sendMessage( Slapper.getLanguage().getNoPermissions() );
             }
         }else{
             if(!Slapper.getSlapperManager().removeEntity.contains( player )){
                 Slapper.getSlapperManager().removeEntity.add( player );
-                player.sendMessage( Slapper.prefix + "§7Schlage das §eEntity §7was du entfernen willst" );
+                player.sendMessage( Slapper.prefix + Slapper.getLanguage().getRemoveEntityInfo1() );
             }else{
                 Slapper.getSlapperManager().removeEntity.remove( player );
-                player.sendMessage( Slapper.prefix + "§cDu kannst nun kein §eEntity §cmehr entfernen" );
+                player.sendMessage( Slapper.prefix + Slapper.getLanguage().getRemoveEntityInfo2() );
             }
         }
 

@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="Slapper">
-    <output-path>$PROJECT_DIR$/out/artifacts/Slapper</output-path>
-    <root id="archive" name="Slapper.jar">
-      <element id="module-output" name="Slapper" />
-    </root>
-  </artifact>
-</component>

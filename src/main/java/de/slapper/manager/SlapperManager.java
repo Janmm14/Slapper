@@ -9,8 +9,7 @@ import io.gomint.entity.monster.*;
 import io.gomint.entity.passive.*;
 import io.gomint.math.Location;
 import io.gomint.player.PlayerSkin;
-import io.gomint.server.inventory.item.ItemStack;
-import io.gomint.server.inventory.item.Items;
+import io.gomint.inventory.item.ItemStack;
 import io.gomint.world.World;
 
 import java.io.*;
@@ -34,6 +33,7 @@ public class SlapperManager {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public void loadEntitys(){
         try{
             for(String list : Slapper.getConfig().getList()){
@@ -69,7 +69,7 @@ public class SlapperManager {
                     ((EntityHuman)entity).setSkin( playerSkin );
                     try {
                         Class clazz = Class.forName( "io.gomint.inventory.item." + item );
-                        ((EntityHuman)entity).getInventory().setItem( slotID, Items.create(clazz, (byte) 1 ) );
+                        ((EntityHuman)entity).getInventory().setItem( slotID, GoMint.instance().createItemStack( clazz, 1 ) );
 
                     } catch ( ClassNotFoundException e ) {
                         e.printStackTrace();

@@ -1,7 +1,6 @@
 package de.slapper.commands.passive;
 
 import de.slapper.Slapper;
-import de.slapper.events.PlayerSpawnSlapperEntity;
 import de.slapper.manager.EntityTypes;
 import io.gomint.command.Command;
 import io.gomint.command.CommandOutput;
@@ -12,13 +11,8 @@ import io.gomint.command.annotation.Parameter;
 import io.gomint.command.validator.BooleanValidator;
 import io.gomint.command.validator.StringValidator;
 import io.gomint.entity.EntityPlayer;
-import io.gomint.entity.passive.EntityHuman;
-import io.gomint.server.inventory.item.ItemStack;
+import io.gomint.inventory.item.ItemStack;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Map;
 
 @Name("slapper human")

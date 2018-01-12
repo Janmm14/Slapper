@@ -16,7 +16,7 @@ import java.io.File;
 import java.io.IOException;
 
 @PluginName( "Slapper" )
-@Version( minor = 1, major = 0)
+@Version( major = 1, minor = 6)
 public class Slapper extends Plugin {
 
     public static String prefix;

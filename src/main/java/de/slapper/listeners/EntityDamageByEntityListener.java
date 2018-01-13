@@ -38,7 +38,7 @@ public class EntityDamageByEntityListener implements EventListener {
                         if(Slapper.getSlapperManager().getNameTag.get( entity ) != null){
                             Slapper.getSlapperManager().getNameTag.get( entity ).remove();
                         }
-                        PlayerRemoveSlapperEvent playerRemoveSlapperEvent = new PlayerRemoveSlapperEvent( player, entity, EntityTypes.valueOf( slapperData.getType() ) );
+                        PlayerRemoveSlapperEvent playerRemoveSlapperEvent = new PlayerRemoveSlapperEvent( player, entity, EntityTypes.valueOf( slapperData.getType().toUpperCase() ) );
                         Slapper.getInstance().getPluginManager().callEvent( playerRemoveSlapperEvent );
                         player.sendMessage( Slapper.prefix + Slapper.getLanguage().getRemoveEntity() );
                     }
@@ -52,7 +52,7 @@ public class EntityDamageByEntityListener implements EventListener {
                         entity.despawn();
                         Slapper.getSlapperManager().getNameTag.get( entity ).remove();
 
-                        PlayerRemoveSlapperEvent playerRemoveSlapperEvent = new PlayerRemoveSlapperEvent( player, entity, EntityTypes.valueOf( slapperData.getType() ) );
+                        PlayerRemoveSlapperEvent playerRemoveSlapperEvent = new PlayerRemoveSlapperEvent( player, entity, EntityTypes.valueOf( slapperData.getType().toUpperCase() ) );
                         Slapper.getInstance().getPluginManager().callEvent( playerRemoveSlapperEvent );
                         player.sendMessage( Slapper.prefix + Slapper.getLanguage().getRemoveEntity() );
                     }

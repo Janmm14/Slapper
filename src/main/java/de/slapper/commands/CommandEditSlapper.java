@@ -159,7 +159,7 @@ public class CommandEditSlapper extends Command {
                         Slapper.getSlapperManager().getEntity.remove( player );
                         Slapper.getSlapperManager().editEntity.remove( player );
 
-                        PlayerEditSlapperEvent editSlapperEvent = new PlayerEditSlapperEvent( player, entity, EntityTypes.valueOf( oldSlapperData.getType() ) );
+                        PlayerEditSlapperEvent editSlapperEvent = new PlayerEditSlapperEvent( player, entity, EntityTypes.valueOf( oldSlapperData.getType().toUpperCase() ) );
                         Slapper.getInstance().getPluginManager().callEvent( editSlapperEvent );
                         player.sendMessage( Slapper.prefix + Slapper.getLanguage().getEditEntitySuccessful().replace( "[type]", oldSlapperData.getType() ) );
                     }
@@ -189,7 +189,7 @@ public class CommandEditSlapper extends Command {
                         Slapper.getSlapperManager().getEntity.remove( player );
                         Slapper.getSlapperManager().editEntity.remove( player );
 
-                        PlayerEditSlapperEvent editSlapperEvent = new PlayerEditSlapperEvent( player, entity, EntityTypes.valueOf( oldSlapperData.getType() ) );
+                        PlayerEditSlapperEvent editSlapperEvent = new PlayerEditSlapperEvent( player, entity, EntityTypes.valueOf( oldSlapperData.getType().toUpperCase() ) );
                         Slapper.getInstance().getPluginManager().callEvent( editSlapperEvent );
                         player.sendMessage( Slapper.prefix + Slapper.getLanguage().getEditEntitySuccessful().replace( "[type]", oldSlapperData.getType() ) );
                     }

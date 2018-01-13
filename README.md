@@ -25,6 +25,16 @@ Q: Wie kann ich ein Entity editieren ?
 
 A: Als erstes musst du im Chat "/slapper getentity" eingeben und dann das Entity schlagen um es zu speichern. Als nächstes gibst du im Chat folgendes ein "/slapper [nameTag] [showNameTag]" ein, nun ist dein Entity editiert.
 
+Q: Wie kann ich die neue FloatingText API nutzen?
+
+A: 
+FloatingText floatingText = new FloatingText( Location, Title );
+floatingText.create();
+
+oder 
+
+floatingText.remove();
+
 # Permissions
 - Slapper.SpawnEntity
 - Slapper.RemoveEntity
@@ -33,7 +43,6 @@ A: Als erstes musst du im Chat "/slapper getentity" eingeben und dann das Entity
 
 # TODO
 - Command / Funktion speichern wenn man ein Entity schlägt
-- NameTags für Monster und Tiere
 
 # Download
 https://github.com/LucGamesYT/Slapper/releases

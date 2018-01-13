@@ -134,7 +134,6 @@ public class SlapperManager {
 
         if ( entity != null ) {
             slapperDatas.put( entity.getEntityId(), new SlapperData( id , player.getName(), type.getName(), location.getWorld().getWorldName(), location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch(), showNameTag, nameTag ));
-            player.sendMessage( "Height: " + entity.getEyeHeight() );
         }
 
         PlayerSpawnSlapperEntity playerSpawnSlapperEntity = new PlayerSpawnSlapperEntity( player, entity, type );

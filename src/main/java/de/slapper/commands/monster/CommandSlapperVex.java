@@ -16,7 +16,7 @@ import io.gomint.entity.monster.EntityVex;
 
 import java.util.Map;
 
-@Name("slapper stray")
+@Name("slapper vex")
 @Description("Spawn ein EntityStray")
 @Overload( {
         @Parameter( name = "nameTag", validator = StringValidator.class, arguments = {".*"}, optional = true ),

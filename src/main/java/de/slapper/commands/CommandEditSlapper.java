@@ -1,6 +1,8 @@
 package de.slapper.commands;
 
 import de.slapper.Slapper;
+import de.slapper.events.PlayerEditSlapperEvent;
+import de.slapper.manager.EntityTypes;
 import de.slapper.manager.SlapperData;
 import io.gomint.GoMint;
 import io.gomint.command.Command;
@@ -74,6 +76,8 @@ public class CommandEditSlapper extends Command {
                             Slapper.getSlapperManager().getEntity.remove( player );
                             Slapper.getSlapperManager().editEntity.remove( player );
 
+                            PlayerEditSlapperEvent editSlapperEvent = new PlayerEditSlapperEvent( player, entity, EntityTypes.valueOf( oldSlapperData.getType() ) );
+                            Slapper.getInstance().getPluginManager().callEvent( editSlapperEvent );
                             player.sendMessage( Slapper.prefix + Slapper.getLanguage().getEditEntitySuccessful().replace( "[type]", oldSlapperData.getType() ) );
                         }
                     }else{
@@ -102,6 +106,8 @@ public class CommandEditSlapper extends Command {
                             Slapper.getSlapperManager().getEntity.remove( player );
                             Slapper.getSlapperManager().editEntity.remove( player );
 
+                            PlayerEditSlapperEvent editSlapperEvent = new PlayerEditSlapperEvent( player, entity, EntityTypes.valueOf( oldSlapperData.getType() ) );
+                            Slapper.getInstance().getPluginManager().callEvent( editSlapperEvent );
                             player.sendMessage( Slapper.prefix + Slapper.getLanguage().getEditEntitySuccessful().replace( "[type]", oldSlapperData.getType() ) );
                         }
                     }
@@ -153,6 +159,8 @@ public class CommandEditSlapper extends Command {
                         Slapper.getSlapperManager().getEntity.remove( player );
                         Slapper.getSlapperManager().editEntity.remove( player );
 
+                        PlayerEditSlapperEvent editSlapperEvent = new PlayerEditSlapperEvent( player, entity, EntityTypes.valueOf( oldSlapperData.getType() ) );
+                        Slapper.getInstance().getPluginManager().callEvent( editSlapperEvent );
                         player.sendMessage( Slapper.prefix + Slapper.getLanguage().getEditEntitySuccessful().replace( "[type]", oldSlapperData.getType() ) );
                     }
                 }else{
@@ -181,6 +189,8 @@ public class CommandEditSlapper extends Command {
                         Slapper.getSlapperManager().getEntity.remove( player );
                         Slapper.getSlapperManager().editEntity.remove( player );
 
+                        PlayerEditSlapperEvent editSlapperEvent = new PlayerEditSlapperEvent( player, entity, EntityTypes.valueOf( oldSlapperData.getType() ) );
+                        Slapper.getInstance().getPluginManager().callEvent( editSlapperEvent );
                         player.sendMessage( Slapper.prefix + Slapper.getLanguage().getEditEntitySuccessful().replace( "[type]", oldSlapperData.getType() ) );
                     }
                 }

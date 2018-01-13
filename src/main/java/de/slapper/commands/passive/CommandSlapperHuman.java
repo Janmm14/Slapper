@@ -30,19 +30,19 @@ public class CommandSlapperHuman extends Command {
 
         if(Slapper.getConfig().isUsePermissions()){
             if(player.hasPermission( "Slapper.SpawnEntity" )){
-                String nameTag = (String) map.getOrDefault( "nametag", player.getNameTag());
+                String nameTag = (String) map.getOrDefault( "nameTag", player.getNameTag());
                 Boolean showNameTag = (Boolean) map.getOrDefault( "showNameTag", true );
 
-                Slapper.getSlapperManager().spawnHuman( type, player, nameTag, showNameTag, player.getLocation(), player.getSkin(), player.getInventory().getItemInHandSlot(), (ItemStack) player.getInventory().getItemInHand() );
+                Slapper.getSlapperManager().spawnHuman( type, player, nameTag, showNameTag, player.getLocation(), player.getSkin(), player.getInventory().getItemInHandSlot(), player.getInventory().getItemInHand() );
 
             }else{
                 player.sendMessage( Slapper.getLanguage().getNoPermissions() );
             }
         }else{
-            String nameTag = (String) map.getOrDefault( "nametag", player.getNameTag());
+            String nameTag = (String) map.getOrDefault( "nameTag", player.getNameTag());
             Boolean showNameTag = (Boolean) map.getOrDefault( "showNameTag", true );
 
-            Slapper.getSlapperManager().spawnHuman( type, player, nameTag, showNameTag, player.getLocation(), player.getSkin(), player.getInventory().getItemInHandSlot(), (ItemStack) player.getInventory().getItemInHand() );
+            Slapper.getSlapperManager().spawnHuman( type, player, nameTag, showNameTag, player.getLocation(), player.getSkin(), player.getInventory().getItemInHandSlot(), player.getInventory().getItemInHand() );
         }
 
         return new CommandOutput();

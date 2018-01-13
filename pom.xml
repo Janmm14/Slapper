@@ -22,7 +22,7 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-    
+
     <repositories>
         <repository>
             <id>janmm14-public</id>

@@ -4,13 +4,9 @@ import de.slapper.config.Config;
 import de.slapper.language.Language;
 import de.slapper.listeners.EntityDamageByEntityListener;
 import de.slapper.manager.SlapperManager;
-import io.gomint.event.EventHandler;
-import io.gomint.event.EventListener;
-import io.gomint.event.player.PlayerJoinEvent;
 import io.gomint.plugin.Plugin;
 import io.gomint.plugin.PluginName;
 import io.gomint.plugin.Version;
-import io.gomint.world.Gamemode;
 
 import java.io.File;
 import java.io.IOException;

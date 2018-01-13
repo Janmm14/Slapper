@@ -1,6 +1,8 @@
 package de.slapper.listeners;
 
 import de.slapper.Slapper;
+import de.slapper.events.PlayerRemoveSlapperEvent;
+import de.slapper.manager.EntityTypes;
 import de.slapper.manager.SlapperData;
 import io.gomint.entity.Entity;
 import io.gomint.entity.EntityPlayer;
@@ -8,6 +10,7 @@ import io.gomint.entity.passive.EntityHuman;
 import io.gomint.event.EventHandler;
 import io.gomint.event.EventListener;
 import io.gomint.event.entity.EntityDamageByEntityEvent;
+import io.gomint.event.player.PlayerRespawnEvent;
 
 import java.util.ArrayList;
 
@@ -32,6 +35,11 @@ public class EntityDamageByEntityListener implements EventListener {
                                 + "~" + slapperData.getYaw() + "~" + slapperData.getPitch() + "~" + slapperData.isShowNameTag() + "~" + slapperData.getNameTag()  + "~" + slapperData.getItemCalssName() + "~" + slapperData.getSlotId() );
                         Slapper.getConfig().save();
                         entity.despawn();
+                        if(Slapper.getSlapperManager().getNameTag.get( entity ) != null){
+                            Slapper.getSlapperManager().getNameTag.get( entity ).remove();
+                        }
+                        PlayerRemoveSlapperEvent playerRemoveSlapperEvent = new PlayerRemoveSlapperEvent( player, entity, EntityTypes.valueOf( slapperData.getType() ) );
+                        Slapper.getInstance().getPluginManager().callEvent( playerRemoveSlapperEvent );
                         player.sendMessage( Slapper.prefix + Slapper.getLanguage().getRemoveEntity() );
                     }
                 }else{
@@ -42,6 +50,10 @@ public class EntityDamageByEntityListener implements EventListener {
                                 + "~" + slapperData.getYaw() + "~" + slapperData.getPitch() + "~" + slapperData.isShowNameTag() + "~" + slapperData.getNameTag());
                         Slapper.getConfig().save();
                         entity.despawn();
+                        Slapper.getSlapperManager().getNameTag.get( entity ).remove();
+
+                        PlayerRemoveSlapperEvent playerRemoveSlapperEvent = new PlayerRemoveSlapperEvent( player, entity, EntityTypes.valueOf( slapperData.getType() ) );
+                        Slapper.getInstance().getPluginManager().callEvent( playerRemoveSlapperEvent );
                         player.sendMessage( Slapper.prefix + Slapper.getLanguage().getRemoveEntity() );
                     }
                 }

@@ -2,14 +2,15 @@ package de.slapper.manager;
 
 import de.slapper.Slapper;
 import de.slapper.events.PlayerSpawnSlapperEntity;
+import de.slapper.floatingtext.FloatingText;
 import io.gomint.GoMint;
 import io.gomint.entity.Entity;
 import io.gomint.entity.EntityPlayer;
 import io.gomint.entity.monster.*;
 import io.gomint.entity.passive.*;
+import io.gomint.inventory.item.ItemStack;
 import io.gomint.math.Location;
 import io.gomint.player.PlayerSkin;
-import io.gomint.inventory.item.ItemStack;
 import io.gomint.world.World;
 
 import java.io.*;
@@ -23,6 +24,7 @@ public class SlapperManager {
     public Map<Long, SlapperData> slapperDatas = new HashMap<>();
     public Map<EntityPlayer, Entity> getEntity = new HashMap<>();
     public Map<Entity, PlayerSkin> getSkin = new HashMap<>();
+    public Map<Entity, FloatingText> getNameTag = new HashMap<>();
 
     public ArrayList<EntityPlayer> removeEntity = new ArrayList<>();
     public ArrayList<EntityPlayer> editEntity = new ArrayList<>();
@@ -61,7 +63,10 @@ public class SlapperManager {
                     slapperDatas.put( entity.getEntityId(), new SlapperData( id, name, type, world.getWorldName(), x, y, z, yaw, pitch, showNameTag, nameTag, item, slotID ));
 
                     entity.setNameTag( nameTag );
-                    entity.setNameTagAlwaysVisible( showNameTag );
+
+                    if(showNameTag){
+                        entity.setNameTagAlwaysVisible( true );
+                    }
 
                     InputStream inputStream = new BufferedInputStream( new FileInputStream( new File( Slapper.getInstance().getDataFolder() + "/Skins/" + name + ".png") ) );
                     PlayerSkin playerSkin = GoMint.instance().createPlayerSkin( inputStream );
@@ -70,7 +75,6 @@ public class SlapperManager {
                     try {
                         Class clazz = Class.forName( "io.gomint.inventory.item." + item );
                         ((EntityHuman)entity).getInventory().setItem( slotID, GoMint.instance().createItemStack( clazz, 1 ) );
-
                     } catch ( ClassNotFoundException e ) {
                         e.printStackTrace();
                     }
@@ -83,6 +87,17 @@ public class SlapperManager {
                 if ( entity != null ) {
                     entity.setTicking(false);
                     entity.spawn( location );
+
+                    float eyeHeight = (float) (entity.getEyeHeight() * 1.7);
+                    Location floatingTextLocation = new Location( world, location.getX(), location.getY() + eyeHeight, location.getZ() );
+
+                    FloatingText floatingText = new FloatingText( nameTag, floatingTextLocation );
+                    if(!(entity instanceof EntityHuman)){
+                        if(showNameTag){
+                            getNameTag.put( entity, floatingText );
+                            floatingText.create();
+                        }
+                    }
                 }
 
 
@@ -95,10 +110,21 @@ public class SlapperManager {
     public void spawnEntity( EntityTypes type, EntityPlayer player, String nameTag, boolean showNameTag, Location location ){
 
         Entity entity = getEntity( type.getName() );
+
         if(entity != null){
+
+            float eyeHeight = (float) (entity.getEyeHeight() * 1.7);
+            Location floatingTextLocation = new Location( location.getWorld(), location.getX(), location.getY() + eyeHeight, location.getZ() );
+            FloatingText floatingText = new FloatingText( nameTag, floatingTextLocation );
+
             entity.setTicking( false );
             entity.spawn( location );
+            if(showNameTag){
+                floatingText.create();
+                getNameTag.put( entity, floatingText );
+            }
         }
+
 
         int id = Slapper.getConfig().getList().size();
         id+=1;
@@ -108,9 +134,10 @@ public class SlapperManager {
 
         if ( entity != null ) {
             slapperDatas.put( entity.getEntityId(), new SlapperData( id , player.getName(), type.getName(), location.getWorld().getWorldName(), location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch(), showNameTag, nameTag ));
+            player.sendMessage( "Height: " + entity.getEyeHeight() );
         }
 
-        PlayerSpawnSlapperEntity playerSpawnSlapperEntity = new PlayerSpawnSlapperEntity( player, entity );
+        PlayerSpawnSlapperEntity playerSpawnSlapperEntity = new PlayerSpawnSlapperEntity( player, entity, type );
         Slapper.getInstance().getPluginManager().callEvent( playerSpawnSlapperEntity );
 
     }
@@ -118,7 +145,10 @@ public class SlapperManager {
     public void spawnHuman( EntityTypes type, EntityPlayer player, String nameTag, boolean showNameTag, Location location, PlayerSkin playerSkin, int slotID, ItemStack itemStack ){
         EntityHuman entity = EntityHuman.create();
         entity.setNameTag( nameTag );
-        entity.setNameTagAlwaysVisible( showNameTag );
+        if(!showNameTag){
+            entity.setNameTag( "" );
+            entity.setNameTagAlwaysVisible( true );
+        }
         entity.setSkin( playerSkin );
         entity.getInventory().setItem( slotID, itemStack );
         entity.setTicking( false );
@@ -132,13 +162,13 @@ public class SlapperManager {
 
         slapperDatas.put( entity.getEntityId(), new SlapperData( id , player.getName(), type.getName(), location.getWorld().getWorldName(), location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch(), showNameTag, nameTag, itemStack.getClass().getSimpleName(), slotID ));
 
-        PlayerSpawnSlapperEntity playerSpawnSlapperEntity = new PlayerSpawnSlapperEntity( player, entity );
+        PlayerSpawnSlapperEntity playerSpawnSlapperEntity = new PlayerSpawnSlapperEntity( player, entity, type );
         Slapper.getInstance().getPluginManager().callEvent( playerSpawnSlapperEntity );
     }
 
     public void saveMobs( EntityPlayer player, EntityTypes type, Boolean showNameTag, String nameTag ){
         //Save locations from entity
-        Slapper.getConfig().list = new ArrayList<String>( Slapper.getConfig().getList() );
+        Slapper.getConfig().list = new ArrayList<>( Slapper.getConfig().getList() );
         int id = Slapper.getConfig().getList().size();
 
         if(Slapper.getConfig().getList().isEmpty()){
@@ -220,7 +250,7 @@ public class SlapperManager {
         }else if(types.equals( EntityTypes.WITHER_SKELETON.getName() )){
             return EntityWitherSkeleton.create();
         }else if(types.equals( EntityTypes.ZOMBIE.getName() )){
-            return EntityCreeper.create();
+            return EntityZombie.create();
         }else if(types.equals( EntityTypes.ZOMBIE_PIGMAN.getName() )){
             return EntityZombiePigman.create();
         }else if(types.equals( EntityTypes.ZOMBIE_VILLAGER.getName() )){

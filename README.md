@@ -29,6 +29,7 @@ Q: Wie kann ich die neue FloatingText API nutzen?
 
 A: 
 FloatingText floatingText = new FloatingText( Location, Title );
+
 floatingText.create();
 
 oder 

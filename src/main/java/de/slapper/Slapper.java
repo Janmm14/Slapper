@@ -1,5 +1,6 @@
 package de.slapper;
 
+import de.slapper.commands.CommandEditSlapper;
 import de.slapper.config.Config;
 import de.slapper.language.Language;
 import de.slapper.listeners.EntityDamageByEntityListener;

@@ -1,6 +1,7 @@
 package de.slapper.listeners;
 
 import de.slapper.Slapper;
+import de.slapper.events.PlayerHitSlapperEvent;
 import de.slapper.events.PlayerRemoveSlapperEvent;
 import de.slapper.manager.EntityTypes;
 import de.slapper.manager.SlapperData;
@@ -20,9 +21,13 @@ public class EntityDamageByEntityListener implements EventListener {
     public void onPlayerHitSlapper( EntityDamageByEntityEvent e ){
         EntityPlayer player = (EntityPlayer) e.getAttacker();
         Entity entity = e.getEntity();
+        SlapperData slapperData = Slapper.getSlapperManager().slapperDatas.get( entity.getEntityId() );
+        EntityTypes types = EntityTypes.valueOf( slapperData.getType().toUpperCase() );
+
+        PlayerHitSlapperEvent playerHitSlapperEvent = new PlayerHitSlapperEvent( player, entity, types );
+        Slapper.getInstance().getPluginManager().callEvent( playerHitSlapperEvent );
 
         if(Slapper.getSlapperManager().removeEntity.contains( player )){
-            SlapperData slapperData = Slapper.getSlapperManager().slapperDatas.get( entity.getEntityId() );
             Slapper.getConfig().list = new ArrayList<>( Slapper.getConfig().getList() );
 
             if(!(entity instanceof EntityPlayer)){

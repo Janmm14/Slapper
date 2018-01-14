@@ -1,6 +1,5 @@
 package de.slapper;
 
-import de.slapper.commands.CommandEditSlapper;
 import de.slapper.config.Config;
 import de.slapper.language.Language;
 import de.slapper.listeners.EntityDamageByEntityListener;
@@ -13,7 +12,7 @@ import java.io.File;
 import java.io.IOException;
 
 @PluginName( "Slapper" )
-@Version( major = 1, minor = 10)
+@Version( major = 1, minor = 11)
 public class Slapper extends Plugin {
 
     public static String prefix;
@@ -39,7 +38,7 @@ public class Slapper extends Plugin {
         slapperManager = new SlapperManager();
         slapperManager.loadEntitys();
 
-        registerListener( new EntityDamageByEntityListener() );
+       registerListener( new EntityDamageByEntityListener() );
     }
 
     @Override

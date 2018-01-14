@@ -24,8 +24,13 @@ public class EntityDamageByEntityListener implements EventListener {
         SlapperData slapperData = Slapper.getSlapperManager().slapperDatas.get( entity.getEntityId() );
         EntityTypes types = EntityTypes.valueOf( slapperData.getType().toUpperCase() );
 
-        PlayerHitSlapperEvent playerHitSlapperEvent = new PlayerHitSlapperEvent( player, entity, types );
-        Slapper.getInstance().getPluginManager().callEvent( playerHitSlapperEvent );
+        if(Slapper.getSlapperManager().entitys.contains( entity )){
+
+            e.setCancelled( true );
+
+            PlayerHitSlapperEvent playerHitSlapperEvent = new PlayerHitSlapperEvent( player, entity, types );
+            Slapper.getInstance().getPluginManager().callEvent( playerHitSlapperEvent );
+        }
 
         if(Slapper.getSlapperManager().removeEntity.contains( player )){
             Slapper.getConfig().list = new ArrayList<>( Slapper.getConfig().getList() );

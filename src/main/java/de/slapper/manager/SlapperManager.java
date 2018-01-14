@@ -16,6 +16,7 @@ import io.gomint.world.World;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SlapperManager {
@@ -28,6 +29,7 @@ public class SlapperManager {
 
     public ArrayList<EntityPlayer> removeEntity = new ArrayList<>();
     public ArrayList<EntityPlayer> editEntity = new ArrayList<>();
+    public List<Entity> entitys = new ArrayList<>();
 
     public SlapperManager() {
         if(!file.exists()){
@@ -87,6 +89,8 @@ public class SlapperManager {
                 if ( entity != null ) {
                     entity.setTicking(false);
                     entity.spawn( location );
+
+                    entitys.add( entity );
 
                     float eyeHeight = (float) (entity.getEyeHeight() * 1.7);
                     Location floatingTextLocation = new Location( world, location.getX(), location.getY() + eyeHeight, location.getZ() );

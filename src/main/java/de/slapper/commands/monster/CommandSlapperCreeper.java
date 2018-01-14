@@ -16,7 +16,7 @@ import io.gomint.entity.monster.EntityCreeper;
 
 import java.util.Map;
 
-@Name("slapper crepper")
+@Name("slapper creeper")
 @Description("Spawn ein EntityCreeper")
 @Overload( {
         @Parameter( name = "nameTag", validator = StringValidator.class, arguments = {".*"}, optional = true ),

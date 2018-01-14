@@ -13,7 +13,7 @@ import java.io.File;
 import java.io.IOException;
 
 @PluginName( "Slapper" )
-@Version( major = 1, minor = 8)
+@Version( major = 1, minor = 9)
 public class Slapper extends Plugin {
 
     public static String prefix;

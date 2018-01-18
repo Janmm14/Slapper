@@ -56,4 +56,28 @@ public class SlapperAPI {
         }
     }
 
+    public static void removeSlapperNameTag( Entity entity ){
+        if(isSlapper( entity )){
+            FloatingText floatingText = Slapper.getSlapperManager().getNameTag.get( entity );
+            floatingText.remove();
+
+            SlapperData slapperData = Slapper.getSlapperManager().slapperDatas.get( entity.getEntityId() );
+            slapperData.setNameTag( "null" );
+            slapperData.setShowNameTag( false );
+
+            Slapper.getSlapperManager().slapperDatas.put( entity.getEntityId(), slapperData );
+
+            Slapper.getConfig().list = new ArrayList<>( Slapper.getConfig().getList() );
+
+            if(entity instanceof EntityHuman){
+                Slapper.getConfig().getList().set( slapperData.getId() - 1, slapperData.getId() + "~" +slapperData.getSpawnedBy() + "~" + slapperData.getType() + "~" +  slapperData.getWorld() + "~" + slapperData.getX() + "~" +
+                        slapperData.getY() + "~" + slapperData.getZ() + "~" + slapperData.getYaw() + "~" + slapperData.getPitch() + "~" + slapperData.isShowNameTag() + "~" + slapperData.getNameTag()  + "~" + slapperData.getItemCalssName()  + "~" + slapperData.getSlotId());
+            }else{
+                Slapper.getConfig().getList().set( slapperData.getId() - 1, slapperData.getId() + "~" +slapperData.getSpawnedBy() + "~" + slapperData.getType() + "~" +  slapperData.getWorld() + "~" + slapperData.getX() + "~" +
+                        slapperData.getY() + "~" + slapperData.getZ() + "~" + slapperData.getYaw() + "~" + slapperData.getPitch() + "~" + slapperData.isShowNameTag() + "~" + slapperData.getNameTag() );
+            }
+            Slapper.getConfig().save();
+        }
+    }
+
 }

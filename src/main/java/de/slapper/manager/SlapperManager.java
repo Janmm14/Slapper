@@ -2,7 +2,7 @@ package de.slapper.manager;
 
 import de.slapper.Slapper;
 import de.slapper.events.PlayerSpawnSlapperEntity;
-import de.slapper.floatingtext.FloatingText;
+import de.slapper.api.floatingtext.FloatingText;
 import io.gomint.GoMint;
 import io.gomint.entity.Entity;
 import io.gomint.entity.EntityPlayer;

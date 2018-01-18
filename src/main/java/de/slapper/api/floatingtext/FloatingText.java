@@ -1,4 +1,4 @@
-package de.slapper.floatingtext;
+package de.slapper.api.floatingtext;
 
 import io.gomint.entity.passive.EntityHuman;
 import io.gomint.math.Location;

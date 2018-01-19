@@ -16,27 +16,27 @@ public class CommandGetEntity extends Command {
     @Override
     public CommandOutput execute( EntityPlayer player, String s, Map<String, Object> map ) {
 
-        if( Slapper.getConfig().isUsePermissions() ){
+        if( Slapper.getInstance().getConfig().isUsePermissions() ){
             if(player.hasPermission( "Slapper.GetEntity" )){
 
-                if(!Slapper.getSlapperManager().editEntity.contains( player )){
-                    Slapper.getSlapperManager().editEntity.add( player );
-                    player.sendMessage(Slapper.prefix + Slapper.getLanguage().getSaveEntityInfo1() );
+                if(!Slapper.getInstance().getSlapperManager().editEntity.contains( player )){
+                    Slapper.getInstance().getSlapperManager().editEntity.add( player );
+                    player.sendMessage(Slapper.prefix + Slapper.getInstance().getLanguage().getSaveEntityInfo1() );
                 }else{
-                    Slapper.getSlapperManager().editEntity.remove( player );
-                    player.sendMessage( Slapper.prefix + Slapper.getLanguage().getSaveEntityInfo2() );
+                    Slapper.getInstance().getSlapperManager().editEntity.remove( player );
+                    player.sendMessage( Slapper.prefix + Slapper.getInstance().getLanguage().getSaveEntityInfo2() );
                 }
 
             }else{
-                player.sendMessage( Slapper.getLanguage().getNoPermissions() );
+                player.sendMessage( Slapper.getInstance().getLanguage().getNoPermissions() );
             }
         }else{
-            if(!Slapper.getSlapperManager().editEntity.contains( player )){
-                Slapper.getSlapperManager().editEntity.add( player );
-                player.sendMessage(Slapper.prefix + Slapper.getLanguage().getSaveEntityInfo1() );
+            if(!Slapper.getInstance().getSlapperManager().editEntity.contains( player )){
+                Slapper.getInstance().getSlapperManager().editEntity.add( player );
+                player.sendMessage(Slapper.prefix + Slapper.getInstance().getLanguage().getSaveEntityInfo1() );
             }else{
-                Slapper.getSlapperManager().editEntity.remove( player );
-                player.sendMessage( Slapper.prefix + Slapper.getLanguage().getSaveEntityInfo2() );
+                Slapper.getInstance().getSlapperManager().editEntity.remove( player );
+                player.sendMessage( Slapper.prefix + Slapper.getInstance().getLanguage().getSaveEntityInfo2() );
             }
         }
 

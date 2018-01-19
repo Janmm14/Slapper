@@ -3,6 +3,7 @@ package de.slapper.config;
 import com.blackypaw.simpleconfig.SimpleConfig;
 import com.blackypaw.simpleconfig.annotation.Comment;
 import de.slapper.Slapper;
+import lombok.Getter;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -19,18 +20,12 @@ public class Config extends SimpleConfig {
     }
 
     @Comment("Hier kannst du die Permissions aktivieren oder deaktivieren")
+    @Getter
     private boolean usePermissions = true;
 
-    public boolean isUsePermissions() {
-        return usePermissions;
-    }
-
     @Comment("Hier sind alle Entitys gespeichert")
+    @Getter
     public List<String> list = new ArrayList<>();
-
-    public List<String> getList() {
-        return list;
-    }
 
     public void save(){
         try {

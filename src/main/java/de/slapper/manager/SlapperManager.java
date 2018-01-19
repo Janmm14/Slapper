@@ -1,7 +1,7 @@
 package de.slapper.manager;
 
 import de.slapper.Slapper;
-import de.slapper.events.PlayerSpawnSlapperEntity;
+import de.slapper.event.PlayerSpawnSlapperEntity;
 import de.slapper.api.floatingtext.FloatingText;
 import io.gomint.GoMint;
 import io.gomint.entity.Entity;
@@ -40,7 +40,7 @@ public class SlapperManager {
     @SuppressWarnings("unchecked")
     public void loadEntitys(){
         try{
-            for(String list : Slapper.getConfig().getList()){
+            for(String list : Slapper.getInstance().getConfig().getList()){
                 String[] data = list.split( "~" );
                 //id, type, world, x, y, z, yaw, pitch, showNameTag, nameTag
                 int id = Integer.parseInt( data[0] );
@@ -130,11 +130,11 @@ public class SlapperManager {
         }
 
 
-        int id = Slapper.getConfig().getList().size();
+        int id = Slapper.getInstance().getConfig().getList().size();
         id+=1;
 
-        Slapper.getSlapperManager().saveMobs( player, type, showNameTag, nameTag );
-        player.sendMessage( Slapper.prefix + Slapper.getLanguage().getSpawnEntity().replace( "[type]", type.getName() ) );
+        Slapper.getInstance().getSlapperManager().saveMobs( player, type, showNameTag, nameTag );
+        player.sendMessage( Slapper.prefix + Slapper.getInstance().getLanguage().getSpawnEntity().replace( "[type]", type.getName() ) );
 
         if ( entity != null ) {
             slapperDatas.put( entity.getEntityId(), new SlapperData( id , player.getName(), type.getName(), location.getWorld().getWorldName(), location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch(), showNameTag, nameTag ));
@@ -157,11 +157,11 @@ public class SlapperManager {
         entity.setTicking( false );
         entity.spawn( location );
 
-        int id = Slapper.getConfig().getList().size();
+        int id = Slapper.getInstance().getConfig().getList().size();
         id+=1;
 
-        Slapper.getSlapperManager().saveHuman( player, type, showNameTag, nameTag );
-        player.sendMessage( Slapper.prefix + Slapper.getLanguage().getSpawnEntity().replace( "[type]", type.getName() ) );
+        Slapper.getInstance().getSlapperManager().saveHuman( player, type, showNameTag, nameTag );
+        player.sendMessage( Slapper.prefix + Slapper.getInstance().getLanguage().getSpawnEntity().replace( "[type]", type.getName() ) );
 
         slapperDatas.put( entity.getEntityId(), new SlapperData( id , player.getName(), type.getName(), location.getWorld().getWorldName(), location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch(), showNameTag, nameTag, itemStack.getClass().getSimpleName(), slotID ));
 
@@ -171,34 +171,34 @@ public class SlapperManager {
 
     public void saveMobs( EntityPlayer player, EntityTypes type, Boolean showNameTag, String nameTag ){
         //Save locations from entity
-        Slapper.getConfig().list = new ArrayList<>( Slapper.getConfig().getList() );
-        int id = Slapper.getConfig().getList().size();
+        Slapper.getInstance().getConfig().list = new ArrayList<>( Slapper.getInstance().getConfig().getList() );
+        int id = Slapper.getInstance().getConfig().getList().size();
 
-        if(Slapper.getConfig().getList().isEmpty()){
-            Slapper.getConfig().getList().add( 1 + "~" + player.getName() + "~" + type.getName() + "~" + player.getWorld().getWorldName() + "~" + player.getPositionX()  + "~" + player.getPositionY() + "~" + player.getPositionZ() +
+        if(Slapper.getInstance().getConfig().getList().isEmpty()){
+            Slapper.getInstance().getConfig().getList().add( 1 + "~" + player.getName() + "~" + type.getName() + "~" + player.getWorld().getWorldName() + "~" + player.getPositionX()  + "~" + player.getPositionY() + "~" + player.getPositionZ() +
                     "~" + player.getYaw() + "~" + player.getPitch() + "~" + showNameTag.toString() + "~" + nameTag );
         }else{
             id+=1;
-            Slapper.getConfig().getList().add( id + "~" + player.getName() + "~" + type.getName() + "~" + player.getWorld().getWorldName() + "~" + player.getPositionX()  + "~" + player.getPositionY() + "~" + player.getPositionZ() +
+            Slapper.getInstance().getConfig().getList().add( id + "~" + player.getName() + "~" + type.getName() + "~" + player.getWorld().getWorldName() + "~" + player.getPositionX()  + "~" + player.getPositionY() + "~" + player.getPositionZ() +
                     "~" + player.getYaw() + "~" + player.getPitch() + "~" + showNameTag.toString() + "~" + nameTag );
         }
-        Slapper.getConfig().save();
+        Slapper.getInstance().getConfig().save();
     }
 
     public void saveHuman( EntityPlayer player, EntityTypes type, Boolean showNameTag, String nameTag ){
         //Save locations from entity
-        Slapper.getConfig().list = new ArrayList<>( Slapper.getConfig().getList() );
-        int id = Slapper.getConfig().getList().size();
+        Slapper.getInstance().getConfig().list = new ArrayList<>( Slapper.getInstance().getConfig().getList() );
+        int id = Slapper.getInstance().getConfig().getList().size();
 
-        if(Slapper.getConfig().getList().isEmpty()){
-            Slapper.getConfig().getList().add( 1 + "~" + player.getName() + "~" + type.getName() + "~" + player.getWorld().getWorldName() + "~" + player.getPositionX()  + "~" + player.getPositionY() + "~" + player.getPositionZ() +
+        if(Slapper.getInstance().getConfig().getList().isEmpty()){
+            Slapper.getInstance().getConfig().getList().add( 1 + "~" + player.getName() + "~" + type.getName() + "~" + player.getWorld().getWorldName() + "~" + player.getPositionX()  + "~" + player.getPositionY() + "~" + player.getPositionZ() +
                     "~" + player.getYaw() + "~" + player.getPitch() + "~" + showNameTag.toString() + "~" + nameTag + "~" + player.getInventory().getItemInHand().getClass().getSimpleName() + "~" + player.getInventory().getItemInHandSlot());
         }else{
             id+=1;
-            Slapper.getConfig().getList().add( id + "~" + player.getName() + "~" + type.getName() + "~" + player.getWorld().getWorldName() + "~" + player.getPositionX()  + "~" + player.getPositionY() + "~" + player.getPositionZ() +
+            Slapper.getInstance().getConfig().getList().add( id + "~" + player.getName() + "~" + type.getName() + "~" + player.getWorld().getWorldName() + "~" + player.getPositionX()  + "~" + player.getPositionY() + "~" + player.getPositionZ() +
                     "~" + player.getYaw() + "~" + player.getPitch() + "~" + showNameTag.toString() + "~" + nameTag + "~" + player.getInventory().getItemInHand().getClass().getSimpleName() + "~" + player.getInventory().getItemInHandSlot());
         }
-        Slapper.getConfig().save();
+        Slapper.getInstance().getConfig().save();
 
         try {
             player.getSkin().saveSkinTo( new FileOutputStream( new File( Slapper.getInstance().getDataFolder() + "/Skins", player.getName() + ".png" ) ) );

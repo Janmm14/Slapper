@@ -2,25 +2,29 @@ package de.slapper;
 
 import de.slapper.config.Config;
 import de.slapper.language.Language;
-import de.slapper.listeners.EntityDamageByEntityListener;
+import de.slapper.listener.EntityDamageByEntityListener;
 import de.slapper.manager.SlapperManager;
 import io.gomint.plugin.Plugin;
 import io.gomint.plugin.PluginName;
 import io.gomint.plugin.Version;
+import lombok.Getter;
 
 import java.io.File;
 import java.io.IOException;
 
 @PluginName( "Slapper" )
-@Version( major = 1, minor = 11)
+@Version( major = 1, minor = 13)
 public class Slapper extends Plugin {
 
     public static String prefix;
-
+    @Getter
     private static Slapper instance;
-    private static Config config;
-    private static Language language;
-    private static SlapperManager slapperManager;
+    @Getter
+    private Config config;
+    @Getter
+    private Language language;
+    @Getter
+    private SlapperManager slapperManager;
 
     @Override
     public void onInstall() {
@@ -38,27 +42,11 @@ public class Slapper extends Plugin {
         slapperManager = new SlapperManager();
         slapperManager.loadEntitys();
 
-       registerListener( new EntityDamageByEntityListener() );
+       this.registerListener( new EntityDamageByEntityListener() );
     }
 
     @Override
     public void onUninstall() {
 
-    }
-
-    public static Slapper getInstance() {
-        return instance;
-    }
-
-    public static Config getConfig() {
-        return config;
-    }
-
-    public static SlapperManager getSlapperManager() {
-        return slapperManager;
-    }
-
-    public static Language getLanguage() {
-        return language;
     }
 }

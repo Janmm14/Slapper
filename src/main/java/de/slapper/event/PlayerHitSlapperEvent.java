@@ -1,4 +1,4 @@
-package de.slapper.events;
+package de.slapper.event;
 
 import de.slapper.manager.EntityTypes;
 import io.gomint.entity.Entity;
@@ -7,14 +7,15 @@ import io.gomint.event.player.PlayerEvent;
 import lombok.Getter;
 
 @Getter
-public class PlayerRemoveSlapperEvent extends PlayerEvent {
+public class PlayerHitSlapperEvent extends PlayerEvent {
 
     private Entity entity;
     private EntityTypes types;
 
-    public PlayerRemoveSlapperEvent( EntityPlayer player, Entity entity, EntityTypes types ) {
+    public PlayerHitSlapperEvent( EntityPlayer player, Entity entity, EntityTypes types ) {
         super( player );
         this.entity = entity;
         this.types = types;
     }
+
 }

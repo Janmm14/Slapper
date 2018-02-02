@@ -6,7 +6,7 @@
 
     <groupId>de.slapper</groupId>
     <artifactId>Slapper</artifactId>
-    <version>1.13</version>
+    <version>1.14</version>
 
     <dependencies>
         <dependency>
@@ -25,8 +25,8 @@
 
     <repositories>
         <repository>
-            <id>janmm14-public</id>
-            <url>https://repo.janmm14.de/repository/public/</url>
+            <id>jGoMint-public</id>
+            <url>https://repo.gomint.io/content/groups/public</url>
         </repository>
     </repositories>
 

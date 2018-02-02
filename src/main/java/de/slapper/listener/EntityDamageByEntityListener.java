@@ -24,10 +24,10 @@ public class EntityDamageByEntityListener implements EventListener {
         EntityTypes types = EntityTypes.valueOf( slapperData.getType().toUpperCase() );
 
         if(Slapper.getInstance().getSlapperManager().entitys.contains( entity )){
-
-            e.setCancelled( true );
-
             PlayerHitSlapperEvent playerHitSlapperEvent = new PlayerHitSlapperEvent( player, entity, types );
+            if(playerHitSlapperEvent.isCancelled()){
+                e.setCancelled(true);
+            }
             Slapper.getInstance().getPluginManager().callEvent( playerHitSlapperEvent );
         }
 
@@ -36,35 +36,39 @@ public class EntityDamageByEntityListener implements EventListener {
 
             if(!(entity instanceof EntityPlayer)){
                 if(entity instanceof EntityHuman){
-                    if(Slapper.getInstance().getConfig().getList().contains( slapperData.getId() + "~" + slapperData.getSpawnedBy() + "~" + slapperData.getType() + "~" + slapperData.getWorld() + "~" + slapperData.getX() + "~" + slapperData.getY() + "~" + slapperData.getZ()
-                            + "~" + slapperData.getYaw() + "~" + slapperData.getPitch() + "~" + slapperData.isShowNameTag() + "~" + slapperData.getNameTag()  + "~" + slapperData.getItemCalssName() + "~" + slapperData.getSlotId() )){
+                    PlayerRemoveSlapperEvent playerRemoveSlapperEvent = new PlayerRemoveSlapperEvent( player, entity, EntityTypes.valueOf( slapperData.getType().toUpperCase() ) );
+                    if(!playerRemoveSlapperEvent.isCancelled()){
+                        if(Slapper.getInstance().getConfig().getList().contains( slapperData.getId() + "~" + slapperData.getSpawnedBy() + "~" + slapperData.getType() + "~" + slapperData.getWorld() + "~" + slapperData.getX() + "~" + slapperData.getY() + "~" + slapperData.getZ()
+                                + "~" + slapperData.getYaw() + "~" + slapperData.getPitch() + "~" + slapperData.isShowNameTag() + "~" + slapperData.getNameTag()  + "~" + slapperData.getItemCalssName() + "~" + slapperData.getSlotId() )){
 
-                        e.setCancelled( true );
-                        Slapper.getInstance().getConfig().getList().remove(  slapperData.getId() + "~" + slapperData.getSpawnedBy() + "~" + slapperData.getType() + "~" + slapperData.getWorld() + "~" + slapperData.getX() + "~" + slapperData.getY() + "~" + slapperData.getZ()
-                                + "~" + slapperData.getYaw() + "~" + slapperData.getPitch() + "~" + slapperData.isShowNameTag() + "~" + slapperData.getNameTag()  + "~" + slapperData.getItemCalssName() + "~" + slapperData.getSlotId() );
-                        Slapper.getInstance().getConfig().save();
-                        entity.despawn();
-                        if(Slapper.getInstance().getSlapperManager().getNameTag.get( entity ) != null){
-                            Slapper.getInstance().getSlapperManager().getNameTag.get( entity ).remove();
+                            e.setCancelled( true );
+                            Slapper.getInstance().getConfig().getList().remove(  slapperData.getId() + "~" + slapperData.getSpawnedBy() + "~" + slapperData.getType() + "~" + slapperData.getWorld() + "~" + slapperData.getX() + "~" + slapperData.getY() + "~" + slapperData.getZ()
+                                    + "~" + slapperData.getYaw() + "~" + slapperData.getPitch() + "~" + slapperData.isShowNameTag() + "~" + slapperData.getNameTag()  + "~" + slapperData.getItemCalssName() + "~" + slapperData.getSlotId() );
+                            Slapper.getInstance().getConfig().save();
+                            entity.despawn();
+                            if(Slapper.getInstance().getSlapperManager().getNameTag.get( entity ) != null){
+                                Slapper.getInstance().getSlapperManager().getNameTag.get( entity ).remove();
+                            }
+                            player.sendMessage( Slapper.prefix + Slapper.getInstance().getLanguage().getRemoveEntity() );
                         }
-                        PlayerRemoveSlapperEvent playerRemoveSlapperEvent = new PlayerRemoveSlapperEvent( player, entity, EntityTypes.valueOf( slapperData.getType().toUpperCase() ) );
-                        Slapper.getInstance().getPluginManager().callEvent( playerRemoveSlapperEvent );
-                        player.sendMessage( Slapper.prefix + Slapper.getInstance().getLanguage().getRemoveEntity() );
                     }
+                    Slapper.getInstance().getPluginManager().callEvent( playerRemoveSlapperEvent );
                 }else{
-                    if(Slapper.getInstance().getConfig().getList().contains( slapperData.getId() + "~" + slapperData.getSpawnedBy() + "~" + slapperData.getType() + "~" + slapperData.getWorld() + "~" + slapperData.getX() + "~" + slapperData.getY() + "~" + slapperData.getZ()
-                            + "~" + slapperData.getYaw() + "~" + slapperData.getPitch() + "~" + slapperData.isShowNameTag() + "~" + slapperData.getNameTag()) ){
-                        e.setCancelled( true );
-                        Slapper.getInstance().getConfig().getList().remove(  slapperData.getId() + "~" + slapperData.getSpawnedBy() + "~" + slapperData.getType() + "~" + slapperData.getWorld() + "~" + slapperData.getX() + "~" + slapperData.getY() + "~" + slapperData.getZ()
-                                + "~" + slapperData.getYaw() + "~" + slapperData.getPitch() + "~" + slapperData.isShowNameTag() + "~" + slapperData.getNameTag());
-                        Slapper.getInstance().getConfig().save();
-                        entity.despawn();
-                        Slapper.getInstance().getSlapperManager().getNameTag.get( entity ).remove();
+                    PlayerRemoveSlapperEvent playerRemoveSlapperEvent = new PlayerRemoveSlapperEvent( player, entity, EntityTypes.valueOf( slapperData.getType().toUpperCase() ) );
+                    if(!playerRemoveSlapperEvent.isCancelled()){
+                        if(Slapper.getInstance().getConfig().getList().contains( slapperData.getId() + "~" + slapperData.getSpawnedBy() + "~" + slapperData.getType() + "~" + slapperData.getWorld() + "~" + slapperData.getX() + "~" + slapperData.getY() + "~" + slapperData.getZ()
+                                + "~" + slapperData.getYaw() + "~" + slapperData.getPitch() + "~" + slapperData.isShowNameTag() + "~" + slapperData.getNameTag()) ){
+                            e.setCancelled( true );
+                            Slapper.getInstance().getConfig().getList().remove(  slapperData.getId() + "~" + slapperData.getSpawnedBy() + "~" + slapperData.getType() + "~" + slapperData.getWorld() + "~" + slapperData.getX() + "~" + slapperData.getY() + "~" + slapperData.getZ()
+                                    + "~" + slapperData.getYaw() + "~" + slapperData.getPitch() + "~" + slapperData.isShowNameTag() + "~" + slapperData.getNameTag());
+                            Slapper.getInstance().getConfig().save();
+                            entity.despawn();
+                            Slapper.getInstance().getSlapperManager().getNameTag.get( entity ).remove();
 
-                        PlayerRemoveSlapperEvent playerRemoveSlapperEvent = new PlayerRemoveSlapperEvent( player, entity, EntityTypes.valueOf( slapperData.getType().toUpperCase() ) );
-                        Slapper.getInstance().getPluginManager().callEvent( playerRemoveSlapperEvent );
-                        player.sendMessage( Slapper.prefix + Slapper.getInstance().getLanguage().getRemoveEntity() );
+                            player.sendMessage( Slapper.prefix + Slapper.getInstance().getLanguage().getRemoveEntity() );
+                        }
                     }
+                    Slapper.getInstance().getPluginManager().callEvent( playerRemoveSlapperEvent );
                 }
             }
         }

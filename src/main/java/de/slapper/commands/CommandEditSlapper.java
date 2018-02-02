@@ -48,6 +48,7 @@ public class CommandEditSlapper extends Command {
 
                     if(entity instanceof EntityHuman){
                         PlayerEditSlapperEvent editSlapperEvent = new PlayerEditSlapperEvent( player, entity, EntityTypes.valueOf( oldSlapperData.getType() ) );
+                        Slapper.getInstance().getPluginManager().callEvent( editSlapperEvent );
                         if(!editSlapperEvent.isCancelled()){
                             if(Slapper.getInstance().getConfig().getList().contains( oldSlapperData.getId() + "~" +oldSlapperData.getSpawnedBy() + "~" + oldSlapperData.getType() + "~" +  oldSlapperData.getWorld() + "~" + oldSlapperData.getX() + "~" +
                                     oldSlapperData.getY() + "~" + oldSlapperData.getZ() + "~" + oldSlapperData.getYaw() + "~" + oldSlapperData.getPitch() + "~" + oldSlapperData.isShowNameTag() + "~" + oldSlapperData.getNameTag()  + "~" + oldSlapperData.getItemCalssName()  + "~" + oldSlapperData.getSlotId())){
@@ -82,9 +83,9 @@ public class CommandEditSlapper extends Command {
                             }
                         }
 
-                        Slapper.getInstance().getPluginManager().callEvent( editSlapperEvent );
                     }else{
                         PlayerEditSlapperEvent editSlapperEvent = new PlayerEditSlapperEvent( player, entity, EntityTypes.valueOf( oldSlapperData.getType() ) );
+                        Slapper.getInstance().getPluginManager().callEvent( editSlapperEvent );
                         if(!editSlapperEvent.isCancelled()){
                             if(Slapper.getInstance().getConfig().getList().contains( oldSlapperData.getId() + "~" +oldSlapperData.getSpawnedBy() + "~" + oldSlapperData.getType() + "~" +  oldSlapperData.getWorld() + "~" + oldSlapperData.getX() + "~" +
                                     oldSlapperData.getY() + "~" + oldSlapperData.getZ() + "~" + oldSlapperData.getYaw() + "~" + oldSlapperData.getPitch() + "~" + oldSlapperData.isShowNameTag() + "~" + oldSlapperData.getNameTag() )){
@@ -114,7 +115,6 @@ public class CommandEditSlapper extends Command {
                             }
 
                         }
-                        Slapper.getInstance().getPluginManager().callEvent( editSlapperEvent );
                     }
                 }else{
                     player.sendMessage( Slapper.prefix + Slapper.getInstance().getLanguage().getEditEntityCommandHelp() );
@@ -136,6 +136,7 @@ public class CommandEditSlapper extends Command {
 
                 if(entity instanceof EntityHuman){
                     PlayerEditSlapperEvent editSlapperEvent = new PlayerEditSlapperEvent( player, entity, EntityTypes.valueOf( oldSlapperData.getType() ) );
+                    Slapper.getInstance().getPluginManager().callEvent( editSlapperEvent );
                     if(!editSlapperEvent.isCancelled()){
                         if(Slapper.getInstance().getConfig().getList().contains( oldSlapperData.getId() + "~" +oldSlapperData.getSpawnedBy() + "~" + oldSlapperData.getType() + "~" +  oldSlapperData.getWorld() + "~" + oldSlapperData.getX() + "~" +
                                 oldSlapperData.getY() + "~" + oldSlapperData.getZ() + "~" + oldSlapperData.getYaw() + "~" + oldSlapperData.getPitch() + "~" + oldSlapperData.isShowNameTag() + "~" + oldSlapperData.getNameTag()  + "~" + oldSlapperData.getItemCalssName()  + "~" + oldSlapperData.getSlotId())){
@@ -170,9 +171,9 @@ public class CommandEditSlapper extends Command {
                         }
                     }
 
-                    Slapper.getInstance().getPluginManager().callEvent( editSlapperEvent );
                 }else{
                     PlayerEditSlapperEvent editSlapperEvent = new PlayerEditSlapperEvent( player, entity, EntityTypes.valueOf( oldSlapperData.getType() ) );
+                    Slapper.getInstance().getPluginManager().callEvent( editSlapperEvent );
                     if(!editSlapperEvent.isCancelled()){
                         if(Slapper.getInstance().getConfig().getList().contains( oldSlapperData.getId() + "~" +oldSlapperData.getSpawnedBy() + "~" + oldSlapperData.getType() + "~" +  oldSlapperData.getWorld() + "~" + oldSlapperData.getX() + "~" +
                                 oldSlapperData.getY() + "~" + oldSlapperData.getZ() + "~" + oldSlapperData.getYaw() + "~" + oldSlapperData.getPitch() + "~" + oldSlapperData.isShowNameTag() + "~" + oldSlapperData.getNameTag() )){
@@ -202,7 +203,6 @@ public class CommandEditSlapper extends Command {
                         }
 
                     }
-                    Slapper.getInstance().getPluginManager().callEvent( editSlapperEvent );
                 }
             }else{
                 player.sendMessage( Slapper.prefix + Slapper.getInstance().getLanguage().getEditEntityCommandHelp() );

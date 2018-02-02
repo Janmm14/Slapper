@@ -114,6 +114,7 @@ public class SlapperManager {
     public void spawnEntity( EntityTypes type, EntityPlayer player, String nameTag, boolean showNameTag, Location location ){
         Entity entity = getEntity( type.getName() );
         PlayerSpawnSlapperEntity playerSpawnSlapperEntity = new PlayerSpawnSlapperEntity( player, entity, type );
+        Slapper.getInstance().getPluginManager().callEvent( playerSpawnSlapperEntity );
         if(!playerSpawnSlapperEntity.isCancelled()){
 
             if(entity != null){
@@ -141,13 +142,13 @@ public class SlapperManager {
                 slapperDatas.put( entity.getEntityId(), new SlapperData( id , player.getName(), type.getName(), location.getWorld().getWorldName(), location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch(), showNameTag, nameTag ));
             }
         }
-        Slapper.getInstance().getPluginManager().callEvent( playerSpawnSlapperEntity );
 
     }
 
     public void spawnHuman( EntityTypes type, EntityPlayer player, String nameTag, boolean showNameTag, Location location, PlayerSkin playerSkin, int slotID, ItemStack itemStack ){
         EntityHuman entity = EntityHuman.create();
         PlayerSpawnSlapperEntity playerSpawnSlapperEntity = new PlayerSpawnSlapperEntity( player, entity, type );
+        Slapper.getInstance().getPluginManager().callEvent( playerSpawnSlapperEntity );
         if(!playerSpawnSlapperEntity.isCancelled()){
             entity.setNameTag( nameTag );
             if(!showNameTag){
@@ -168,7 +169,6 @@ public class SlapperManager {
             slapperDatas.put( entity.getEntityId(), new SlapperData( id , player.getName(), type.getName(), location.getWorld().getWorldName(), location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch(), showNameTag, nameTag, itemStack.getClass().getSimpleName(), slotID ));
 
         }
-        Slapper.getInstance().getPluginManager().callEvent( playerSpawnSlapperEntity );
     }
 
     public void saveMobs( EntityPlayer player, EntityTypes type, Boolean showNameTag, String nameTag ){

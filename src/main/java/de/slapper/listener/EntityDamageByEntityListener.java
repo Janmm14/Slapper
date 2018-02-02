@@ -25,10 +25,10 @@ public class EntityDamageByEntityListener implements EventListener {
 
         if(Slapper.getInstance().getSlapperManager().entitys.contains( entity )){
             PlayerHitSlapperEvent playerHitSlapperEvent = new PlayerHitSlapperEvent( player, entity, types );
+            Slapper.getInstance().getPluginManager().callEvent( playerHitSlapperEvent );
             if(playerHitSlapperEvent.isCancelled()){
                 e.setCancelled(true);
             }
-            Slapper.getInstance().getPluginManager().callEvent( playerHitSlapperEvent );
         }
 
         if(Slapper.getInstance().getSlapperManager().removeEntity.contains( player )){
@@ -37,6 +37,7 @@ public class EntityDamageByEntityListener implements EventListener {
             if(!(entity instanceof EntityPlayer)){
                 if(entity instanceof EntityHuman){
                     PlayerRemoveSlapperEvent playerRemoveSlapperEvent = new PlayerRemoveSlapperEvent( player, entity, EntityTypes.valueOf( slapperData.getType().toUpperCase() ) );
+                    Slapper.getInstance().getPluginManager().callEvent( playerRemoveSlapperEvent );
                     if(!playerRemoveSlapperEvent.isCancelled()){
                         if(Slapper.getInstance().getConfig().getList().contains( slapperData.getId() + "~" + slapperData.getSpawnedBy() + "~" + slapperData.getType() + "~" + slapperData.getWorld() + "~" + slapperData.getX() + "~" + slapperData.getY() + "~" + slapperData.getZ()
                                 + "~" + slapperData.getYaw() + "~" + slapperData.getPitch() + "~" + slapperData.isShowNameTag() + "~" + slapperData.getNameTag()  + "~" + slapperData.getItemCalssName() + "~" + slapperData.getSlotId() )){
@@ -52,9 +53,9 @@ public class EntityDamageByEntityListener implements EventListener {
                             player.sendMessage( Slapper.prefix + Slapper.getInstance().getLanguage().getRemoveEntity() );
                         }
                     }
-                    Slapper.getInstance().getPluginManager().callEvent( playerRemoveSlapperEvent );
                 }else{
                     PlayerRemoveSlapperEvent playerRemoveSlapperEvent = new PlayerRemoveSlapperEvent( player, entity, EntityTypes.valueOf( slapperData.getType().toUpperCase() ) );
+                    Slapper.getInstance().getPluginManager().callEvent( playerRemoveSlapperEvent );
                     if(!playerRemoveSlapperEvent.isCancelled()){
                         if(Slapper.getInstance().getConfig().getList().contains( slapperData.getId() + "~" + slapperData.getSpawnedBy() + "~" + slapperData.getType() + "~" + slapperData.getWorld() + "~" + slapperData.getX() + "~" + slapperData.getY() + "~" + slapperData.getZ()
                                 + "~" + slapperData.getYaw() + "~" + slapperData.getPitch() + "~" + slapperData.isShowNameTag() + "~" + slapperData.getNameTag()) ){
@@ -68,7 +69,6 @@ public class EntityDamageByEntityListener implements EventListener {
                             player.sendMessage( Slapper.prefix + Slapper.getInstance().getLanguage().getRemoveEntity() );
                         }
                     }
-                    Slapper.getInstance().getPluginManager().callEvent( playerRemoveSlapperEvent );
                 }
             }
         }

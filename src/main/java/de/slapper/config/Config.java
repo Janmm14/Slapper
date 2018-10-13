@@ -1,38 +1,41 @@
 package de.slapper.config;
 
-import com.blackypaw.simpleconfig.SimpleConfig;
-import com.blackypaw.simpleconfig.annotation.Comment;
 import de.slapper.Slapper;
+import de.slapper.manager.SlapperData;
+import io.gomint.config.Comment;
+import io.gomint.config.InvalidConfigurationException;
+import io.gomint.config.YamlConfig;
 import lombok.Getter;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Config extends SimpleConfig {
+public class Config extends YamlConfig {
 
-    public Config() {
-        if( !Slapper.getInstance().getDataFolder().exists() ){
-            Slapper.getInstance().getDataFolder().mkdir();
+    public Config( Slapper plugin ) {
+        try {
+            this.init( new File( plugin.getDataFolder(), "config.yml" ));
+        } catch ( InvalidConfigurationException e ) {
+            e.printStackTrace();
         }
     }
 
-    @Comment("Hier kannst du die Permissions aktivieren oder deaktivieren")
+    @Getter
+    private String prefix = "§f[§eSlapper§f] ";
+
+    @Comment( "Here you can activate or deactivate permissions" )
     @Getter
     private boolean usePermissions = true;
 
-    @Comment("Hier sind alle Entitys gespeichert")
+    @Comment( "All Entities are stored here" )
     @Getter
-    public List<String> list = new ArrayList<>();
+    private List<SlapperData> slapperData = new ArrayList<>();
 
-    public void save(){
+    public void saveFile( Slapper plugin ) {
         try {
-            FileWriter writer = new FileWriter( new File( Slapper.getInstance().getDataFolder(), "config.cfg" ) );
-            write( writer );
-            writer.close();
-        } catch ( IOException e ) {
+            this.save( new File( plugin.getDataFolder(), "config.yml" ) );
+        } catch ( InvalidConfigurationException e ) {
             e.printStackTrace();
         }
     }

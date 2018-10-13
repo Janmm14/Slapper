@@ -11,293 +11,83 @@ import io.gomint.entity.passive.*;
 import io.gomint.inventory.item.ItemStack;
 import io.gomint.math.Location;
 import io.gomint.player.PlayerSkin;
+import io.gomint.server.entity.EntityType;
 import io.gomint.world.World;
+import lombok.Getter;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SlapperManager {
 
-    private File file = new File( Slapper.getInstance().getDataFolder() + "/Skins/" );
-    public Map<Long, SlapperData> slapperDatas = new HashMap<>();
-    public Map<EntityPlayer, Entity> getEntity = new HashMap<>();
-    public Map<Entity, PlayerSkin> getSkin = new HashMap<>();
-    public Map<Entity, FloatingText> getNameTag = new HashMap<>();
+    private Slapper plugin;
 
-    public ArrayList<EntityPlayer> removeEntity = new ArrayList<>();
-    public ArrayList<EntityPlayer> editEntity = new ArrayList<>();
-    public List<Entity> entitys = new ArrayList<>();
-
-    public SlapperManager() {
-        if(!file.exists()){
-            file.mkdir();
-        }
+    public SlapperManager( Slapper plugin ) {
+        this.plugin = plugin;
     }
 
-    @SuppressWarnings("unchecked")
-    public void loadEntitys(){
-        try{
-            for(String list : Slapper.getInstance().getConfig().getList()){
-                String[] data = list.split( "~" );
-                //id, type, world, x, y, z, yaw, pitch, showNameTag, nameTag
-                int id = Integer.parseInt( data[0] );
-                String name = data[1];
-                String type = data[2];
-                World world = GoMint.instance().getWorld( data[3] );
-                float x = Float.parseFloat( data[4] );
-                float y = Float.parseFloat( data[5] );
-                float z = Float.parseFloat( data[6] );
-                float yaw = Float.parseFloat( data[7] );
-                float pitch = Float.parseFloat( data[8] );
-                boolean showNameTag = Boolean.parseBoolean( data[9] );
-                String nameTag = data[10] != null ? data[10] : "null";
+    @Getter
+    private List<UUID> removeEntity = new ArrayList<>();
 
-                Location location = new Location( world, x, y, z , yaw, pitch );
-                Entity entity = getEntity( type );
+    @Getter
+    private Map<Long, SlapperData> slapperDataMap = new HashMap<>();
+
+    public void loadEntitys(){
+        for( SlapperData slapperData : this.plugin.getConfig().getSlapperData() ){
+            try {
+                Class<? extends Entity> clazz = (Class<? extends Entity>) Class.forName( Slapper.getInstance().getSlapperManager().getMobClassPath( slapperData.getEntityClass().replace( "Entity", "" ) ) + slapperData.getEntityClass() );
+                Entity entity = GoMint.instance().createEntity( clazz );
 
                 if(entity instanceof EntityHuman){
-                    String item = data[11] != null ? data[11] : "null";
-                    int slotID = data[12] != null ? Integer.parseInt( data[12] ) : 0;
-
-                    slapperDatas.put( entity.getEntityId(), new SlapperData( id, name, type, world.getWorldName(), x, y, z, yaw, pitch, showNameTag, nameTag, item, slotID ));
-
-                    entity.setNameTag( nameTag );
-
-                    if(showNameTag){
-                        entity.setNameTagAlwaysVisible( true );
-                    }
-
-                    InputStream inputStream = new BufferedInputStream( new FileInputStream( new File( Slapper.getInstance().getDataFolder() + "/Skins/" + name + ".png") ) );
-                    PlayerSkin playerSkin = GoMint.instance().createPlayerSkin( inputStream );
-
-                    ((EntityHuman)entity).setSkin( playerSkin );
+                    EntityHuman entityHuman = (EntityHuman) entity;
+                    entityHuman.setNameTag( slapperData.getNameTag() );
+                    entityHuman.setNameTagAlwaysVisible( slapperData.isShowNameTag() );
+                    entityHuman.setSneaking( slapperData.isSneaking() );
+                    entityHuman.setTicking( slapperData.isTicking() );
                     try {
-                        Class clazz = Class.forName( "io.gomint.inventory.item." + item );
-                        ((EntityHuman)entity).getInventory().setItem( slotID, GoMint.instance().createItemStack( clazz, 1 ) );
-                    } catch ( ClassNotFoundException e ) {
+                        PlayerSkin playerSkin = GoMint.instance().createPlayerSkin(  new FileInputStream(  new File( Slapper.getInstance().getDataFolder() + "/skins" , slapperData.getSkinName() + ".png" )  ) );
+                        entityHuman.setSkin( playerSkin );
+                    } catch ( FileNotFoundException e ) {
                         e.printStackTrace();
                     }
+
+                    entityHuman.spawn( new Location( GoMint.instance().getWorld( slapperData.getWorld() ), slapperData.getX(), slapperData.getY(), slapperData.getZ(), slapperData.getHeadYaw(), slapperData.getYaw(), slapperData.getPitch()) );
+                    this.slapperDataMap.put( entityHuman.getEntityId(), slapperData );
                 }else{
-                    if(entity != null){
-                        slapperDatas.put( entity.getEntityId(), new SlapperData( id, name, type, world.getWorldName(), x, y, z, yaw, pitch, showNameTag, nameTag));
-                    }
+                    entity.setNameTag( slapperData.getNameTag() );
+                    entity.setNameTagAlwaysVisible( slapperData.isShowNameTag() );
+                    entity.setTicking( slapperData.isTicking() );
+                    entity.spawn( new Location( GoMint.instance().getWorld( slapperData.getWorld() ), slapperData.getX(), slapperData.getY(), slapperData.getZ(), slapperData.getYaw(), slapperData.getPitch()) );
+                    this.slapperDataMap.put( entity.getEntityId(), slapperData );
                 }
 
-                if ( entity != null ) {
-                    entity.setTicking(false);
-                    entity.spawn( location );
-
-                    entitys.add( entity );
-
-                    float eyeHeight = (float) (entity.getEyeHeight() * 1.7);
-                    Location floatingTextLocation = new Location( world, location.getX(), location.getY() + eyeHeight, location.getZ() );
-
-                    FloatingText floatingText = new FloatingText( nameTag, floatingTextLocation );
-                    if(!(entity instanceof EntityHuman)){
-                        if(showNameTag){
-                            getNameTag.put( entity, floatingText );
-                            floatingText.create();
-                        }
-                    }
-                }
-
-
-            }
-        }catch ( Exception ex ){
-            ex.printStackTrace();
-        }
-    }
-
-    public void spawnEntity( EntityTypes type, EntityPlayer player, String nameTag, boolean showNameTag, Location location ){
-        Entity entity = getEntity( type.getName() );
-        PlayerSpawnSlapperEntity playerSpawnSlapperEntity = new PlayerSpawnSlapperEntity( player, entity, type );
-        Slapper.getInstance().getPluginManager().callEvent( playerSpawnSlapperEntity );
-        if(!playerSpawnSlapperEntity.isCancelled()){
-
-            if(entity != null){
-
-                float eyeHeight = (float) (entity.getEyeHeight() * 1.7);
-                Location floatingTextLocation = new Location( location.getWorld(), location.getX(), location.getY() + eyeHeight, location.getZ() );
-                FloatingText floatingText = new FloatingText( nameTag, floatingTextLocation );
-
-                entity.setTicking( false );
-                entity.spawn( location );
-                if(showNameTag){
-                    floatingText.create();
-                    getNameTag.put( entity, floatingText );
-                }
-            }
-
-
-            int id = Slapper.getInstance().getConfig().getList().size();
-            id+=1;
-
-            Slapper.getInstance().getSlapperManager().saveMobs( player, type, showNameTag, nameTag );
-            player.sendMessage( Slapper.prefix + Slapper.getInstance().getLanguage().getSpawnEntity().replace( "[type]", type.getName() ) );
-
-            if ( entity != null ) {
-                slapperDatas.put( entity.getEntityId(), new SlapperData( id , player.getName(), type.getName(), location.getWorld().getWorldName(), location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch(), showNameTag, nameTag ));
+            } catch ( ClassNotFoundException e ) {
+                e.printStackTrace();
             }
         }
-
     }
 
-    public void spawnHuman( EntityTypes type, EntityPlayer player, String nameTag, boolean showNameTag, Location location, PlayerSkin playerSkin, int slotID, ItemStack itemStack ){
-        EntityHuman entity = EntityHuman.create();
-        PlayerSpawnSlapperEntity playerSpawnSlapperEntity = new PlayerSpawnSlapperEntity( player, entity, type );
-        Slapper.getInstance().getPluginManager().callEvent( playerSpawnSlapperEntity );
-        if(!playerSpawnSlapperEntity.isCancelled()){
-            entity.setNameTag( nameTag );
-            if(!showNameTag){
-                entity.setNameTag( "" );
-                entity.setNameTagAlwaysVisible( true );
-            }
-            entity.setSkin( playerSkin );
-            entity.getInventory().setItem( slotID, itemStack );
-            entity.setTicking( false );
-            entity.spawn( location );
+    public String getMobClassPath( String entityType ) {
 
-            int id = Slapper.getInstance().getConfig().getList().size();
-            id+=1;
+        switch ( entityType ) {
 
-            Slapper.getInstance().getSlapperManager().saveHuman( player, type, showNameTag, nameTag );
-            player.sendMessage( Slapper.prefix + Slapper.getInstance().getLanguage().getSpawnEntity().replace( "[type]", type.getName() ) );
+            case "PrimedTNT":
+                return "io.gomint.entity.active.";
 
-            slapperDatas.put( entity.getEntityId(), new SlapperData( id , player.getName(), type.getName(), location.getWorld().getWorldName(), location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch(), showNameTag, nameTag, itemStack.getClass().getSimpleName(), slotID ));
+            case "Blaze": case "CaveSpider": case "Cod": case "Creeper": case "Drowned": case "ElderGuardian": case "EnderDragon": case "Enderman": case "Endermite": case "Evoker": case "Ghast": case "Guardian":
+            case "Husk": case "MagmaCube": case "PolarBear": case "Salmon": case "Shulker": case "Silverfish": case "Skeleton": case "Slime": case "Spider": case "Stray": case "TropicalFish": case "Vex": case "Vindicator":
+            case "Witch": case "Wither": case "WitherSkeleton": case "Zombie": case "ZombiePigman": case "ZombieVillager":
+                return "io.gomint.entity.monster.";
 
+            case "ArmorStand": case "Bat": case "Chicken": case "Cow": case "Donkey": case "FallingBlock": case "Horse": case "Human": case "ItemDrop": case "Lama": case "Mooshroom": case "Mule": case "Ocelot":
+            case "Parrot": case "Pig": case "Rabbit": case "Sheep": case "SkeletonHorse": case "Squid": case "Turtle": case "Villager": case "Wolf": case "XPOrb": case "ZombieHorse":
+                return "io.gomint.entity.passive.";
+
+            case "Arrow": case "Enderpearl": case "ExpBottle": case "FishingHook": case "Snowball":
+                return "io.gomint.entity.projectile.";
         }
-    }
 
-    public void saveMobs( EntityPlayer player, EntityTypes type, Boolean showNameTag, String nameTag ){
-        //Save locations from entity
-        Slapper.getInstance().getConfig().list = new ArrayList<>( Slapper.getInstance().getConfig().getList() );
-        int id = Slapper.getInstance().getConfig().getList().size();
-
-        if(Slapper.getInstance().getConfig().getList().isEmpty()){
-            Slapper.getInstance().getConfig().getList().add( 1 + "~" + player.getName() + "~" + type.getName() + "~" + player.getWorld().getWorldName() + "~" + player.getPositionX()  + "~" + player.getPositionY() + "~" + player.getPositionZ() +
-                    "~" + player.getYaw() + "~" + player.getPitch() + "~" + showNameTag.toString() + "~" + nameTag );
-        }else{
-            id+=1;
-            Slapper.getInstance().getConfig().getList().add( id + "~" + player.getName() + "~" + type.getName() + "~" + player.getWorld().getWorldName() + "~" + player.getPositionX()  + "~" + player.getPositionY() + "~" + player.getPositionZ() +
-                    "~" + player.getYaw() + "~" + player.getPitch() + "~" + showNameTag.toString() + "~" + nameTag );
-        }
-        Slapper.getInstance().getConfig().save();
-    }
-
-    public void saveHuman( EntityPlayer player, EntityTypes type, Boolean showNameTag, String nameTag ){
-        //Save locations from entity
-        Slapper.getInstance().getConfig().list = new ArrayList<>( Slapper.getInstance().getConfig().getList() );
-        int id = Slapper.getInstance().getConfig().getList().size();
-
-        if(Slapper.getInstance().getConfig().getList().isEmpty()){
-            Slapper.getInstance().getConfig().getList().add( 1 + "~" + player.getName() + "~" + type.getName() + "~" + player.getWorld().getWorldName() + "~" + player.getPositionX()  + "~" + player.getPositionY() + "~" + player.getPositionZ() +
-                    "~" + player.getYaw() + "~" + player.getPitch() + "~" + showNameTag.toString() + "~" + nameTag + "~" + player.getInventory().getItemInHand().getClass().getSimpleName() + "~" + player.getInventory().getItemInHandSlot());
-        }else{
-            id+=1;
-            Slapper.getInstance().getConfig().getList().add( id + "~" + player.getName() + "~" + type.getName() + "~" + player.getWorld().getWorldName() + "~" + player.getPositionX()  + "~" + player.getPositionY() + "~" + player.getPositionZ() +
-                    "~" + player.getYaw() + "~" + player.getPitch() + "~" + showNameTag.toString() + "~" + nameTag + "~" + player.getInventory().getItemInHand().getClass().getSimpleName() + "~" + player.getInventory().getItemInHandSlot());
-        }
-        Slapper.getInstance().getConfig().save();
-
-        try {
-            player.getSkin().saveSkinTo( new FileOutputStream( new File( Slapper.getInstance().getDataFolder() + "/Skins", player.getName() + ".png" ) ) );
-        } catch ( IOException e ) {
-            e.printStackTrace();
-        }
-    }
-
-    public Entity getEntity(String types){
-        if(types.equals( EntityTypes.BLAZE.getName() )){
-            return EntityBlaze.create();
-        }else if(types.equals( EntityTypes.CAVE_SPIDER.getName() )){
-            return EntityCaveSpider.create();
-        }else if(types.equals( EntityTypes.CREEPER.getName() )){
-            return EntityCreeper.create();
-        }else if(types.equals( EntityTypes.ELDER_GUARDIAN.getName() )){
-            return EntityElderGuardian.create();
-        }else if(types.equals( EntityTypes.ENDER_DRAGON.getName() )){
-            return EntityEnderDragon.create();
-        }else if(types.equals( EntityTypes.ENDERMAN.getName() )){
-            return EntityEnderman.create();
-        }else if(types.equals( EntityTypes.ENDERMITE.getName() )){
-            return EntityEndermite.create();
-        }else if(types.equals( EntityTypes.GHAST.getName() )){
-            return EntityGhast.create();
-        }else if(types.equals( EntityTypes.GUARDIAN.getName() )){
-            return EntityGuardian.create();
-        }else if(types.equals( EntityTypes.HUSK.getName() )){
-            return EntityHusk.create();
-        }else if(types.equals( EntityTypes.MAGMA_CUBE.getName() )){
-            return EntityMagmaCube.create();
-        }else if(types.equals( EntityTypes.POLAR_BEAR.getName() )){
-            return EntityPolarBear.create();
-        }else if(types.equals( EntityTypes.SHULKER.getName() )){
-            return EntityShulker.create();
-        }else if(types.equals( EntityTypes.SILVERFISH.getName() )){
-            return EntitySilverfish.create();
-        }else if(types.equals( EntityTypes.SKELETON.getName() )){
-            return EntitySkeleton.create();
-        }else if(types.equals( EntityTypes.SLIME.getName() )){
-            return EntitySlime.create();
-        }else if(types.equals( EntityTypes.SPIDER.getName() )){
-            return EntitySpider.create();
-        }else if(types.equals( EntityTypes.STRAY.getName() )){
-            return EntityStray.create();
-        }else if(types.equals( EntityTypes.VEX.getName() )){
-            return EntityVex.create();
-        }else if(types.equals( EntityTypes.WITCH.getName())){
-            return EntityWitch.create();
-        }else if(types.equals( EntityTypes.WITHER.getName() )){
-            return EntityWither.create();
-        }else if(types.equals( EntityTypes.WITHER_SKELETON.getName() )){
-            return EntityWitherSkeleton.create();
-        }else if(types.equals( EntityTypes.ZOMBIE.getName() )){
-            return EntityZombie.create();
-        }else if(types.equals( EntityTypes.ZOMBIE_PIGMAN.getName() )){
-            return EntityZombiePigman.create();
-        }else if(types.equals( EntityTypes.ZOMBIE_VILLAGER.getName() )){
-            return EntityZombieVillager.create();
-        }else if(types.equals( EntityTypes.BAT.getName() )){
-            return EntityBat.create();
-        }else if(types.equals( EntityTypes.CHICKEN.getName() )){
-            return EntityChicken.create();
-        }else if(types.equals( EntityTypes.COW.getName() )){
-            return EntityCow.create();
-        }else if(types.equals( EntityTypes.DONKEY.getName() )){
-            return EntityDonkey.create();
-        }else if(types.equals( EntityTypes.HORSE.getName() )){
-            return EntityHorse.create();
-        }else if(types.equals( EntityTypes.HUMAN.getName() )){
-            return EntityHuman.create();
-        }else if(types.equals( EntityTypes.LAMA.getName() )){
-            return EntityLama.create();
-        }else if(types.equals( EntityTypes.MOOSHROOM.getName() )){
-            return EntityMooshroom.create();
-        }else if(types.equals( EntityTypes.MULE.getName() )){
-            return EntityMule.create();
-        }else if(types.equals( EntityTypes.OCELOT.getName() )){
-            return EntityOcelot.create();
-        }else if(types.equals( EntityTypes.PIG.getName() )){
-            return EntityPig.create();
-        }else if(types.equals( EntityTypes.RABBIT.getName() )){
-            return EntityRabbit.create();
-        }else if(types.equals( EntityTypes.SHEEP.getName() )){
-            return EntitySheep.create();
-        }else if(types.equals( EntityTypes.SKELETON_HORSE.getName() )){
-            return EntitySkeletonHorse.create();
-        }else if(types.equals( EntityTypes.SQUID.getName() )){
-            return EntitySquid.create();
-        }else if(types.equals( EntityTypes.VILLAGER.getName() )){
-            return EntityVillager.create();
-        }else if(types.equals( EntityTypes.WOLF.getName() )){
-            return EntityWolf.create();
-        }else if(types.equals( EntityTypes.ZOMBIE_HOSE.getName() )){
-            return EntityZombieHorse.create();
-        }
-        return null;
+        return "null";
     }
 
 }

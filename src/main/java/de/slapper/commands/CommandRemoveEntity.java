@@ -3,41 +3,40 @@ package de.slapper.commands;
 import de.slapper.Slapper;
 import io.gomint.command.Command;
 import io.gomint.command.CommandOutput;
+import io.gomint.command.CommandSender;
+import io.gomint.command.PlayerCommandSender;
 import io.gomint.command.annotation.Description;
 import io.gomint.command.annotation.Name;
+import io.gomint.command.annotation.Permission;
 import io.gomint.entity.EntityPlayer;
 
 import java.util.Map;
 
-@Name("slapper remove")
-@Description("Entferne ein Entity")
+@Name( "slapper remove" )
+@Description( "Remove and entity" )
+@Permission( "slapper.removeentity" )
 public class CommandRemoveEntity extends Command {
 
     @Override
-    public CommandOutput execute( EntityPlayer player, String s, Map<String, Object> map ) {
+    public CommandOutput execute( CommandSender commandSender, String s, Map<String, Object> map ) {
+        CommandOutput output = new CommandOutput();
+        Slapper plugin = Slapper.getInstance();
 
-        if( Slapper.getInstance().getConfig().isUsePermissions() ){
-            if(player.hasPermission( "Slapper.RemoveEntity" )){
-                if(!Slapper.getInstance().getSlapperManager().removeEntity.contains( player )){
-                    Slapper.getInstance().getSlapperManager().removeEntity.add( player );
-                    player.sendMessage( Slapper.prefix + Slapper.getInstance().getLanguage().getRemoveEntityInfo1() );
-                }else{
-                    Slapper.getInstance().getSlapperManager().removeEntity.remove( player );
-                    player.sendMessage( Slapper.prefix + Slapper.getInstance().getLanguage().getRemoveEntityInfo2() );
-                }
-            }else{
-                player.sendMessage( Slapper.getInstance().getLanguage().getNoPermissions() );
+        if ( commandSender instanceof PlayerCommandSender ) {
+            EntityPlayer player = (EntityPlayer) commandSender;
+
+            if ( !plugin.getSlapperManager().getRemoveEntity().contains( player.getUUID() ) ) {
+                plugin.getSlapperManager().getRemoveEntity().add( player.getUUID() );
+                output.success( plugin.getLocaleManager().translate( player.getLocale(), "canRemoveEntity" ) );
+            } else {
+                plugin.getSlapperManager().getRemoveEntity().remove( player.getUUID() );
+                output.success( plugin.getLocaleManager().translate( player.getLocale(), "cantRemoveEntity" ) );
             }
-        }else{
-            if(!Slapper.getInstance().getSlapperManager().removeEntity.contains( player )){
-                Slapper.getInstance().getSlapperManager().removeEntity.add( player );
-                player.sendMessage( Slapper.prefix + Slapper.getInstance().getLanguage().getRemoveEntityInfo1() );
-            }else{
-                Slapper.getInstance().getSlapperManager().removeEntity.remove( player );
-                player.sendMessage( Slapper.prefix + Slapper.getInstance().getLanguage().getRemoveEntityInfo2() );
-            }
+
+        } else {
+            output.fail( plugin.getLocaleManager().translate( "needPlayer" ) );
         }
 
-        return new CommandOutput();
+        return output;
     }
 }

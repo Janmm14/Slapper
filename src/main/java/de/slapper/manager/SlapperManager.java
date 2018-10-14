@@ -66,8 +66,12 @@ public class SlapperManager {
                     entityHuman.spawn( new Location( GoMint.instance().getWorld( slapperData.getWorld() ), slapperData.getX(), slapperData.getY(), slapperData.getZ(), slapperData.getHeadYaw(), slapperData.getYaw(), slapperData.getPitch()) );
                     this.slapperDataMap.put( entityHuman.getEntityId(), slapperData );
                 }else{
-                    entity.setNameTag( slapperData.getNameTag() );
-                    entity.setNameTagAlwaysVisible( slapperData.isShowNameTag() );
+                    if(slapperData.isShowNameTag()){
+                        FloatingText floatingText = new FloatingText();
+                        floatingText.setTitle( slapperData.getNameTag() );
+                        floatingText.setLocation( new Location( GoMint.instance().getWorld( slapperData.getWorld() ), slapperData.getX(), (float) (slapperData.getY() + entity.getEyeHeight() * 1.7), slapperData.getZ(), slapperData.getYaw(), slapperData.getPitch()) );
+                        floatingText.create();
+                    }
                     entity.setTicking( slapperData.isTicking() );
                     entity.spawn( new Location( GoMint.instance().getWorld( slapperData.getWorld() ), slapperData.getX(), slapperData.getY(), slapperData.getZ(), slapperData.getYaw(), slapperData.getPitch()) );
                     this.slapperDataMap.put( entity.getEntityId(), slapperData );

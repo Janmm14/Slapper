@@ -1,6 +1,7 @@
 package de.slapper.commands;
 
 import de.slapper.Slapper;
+import de.slapper.api.floatingtext.FloatingText;
 import de.slapper.manager.SlapperData;
 import io.gomint.GoMint;
 import io.gomint.command.Command;
@@ -14,13 +15,15 @@ import io.gomint.command.validator.StringValidator;
 import io.gomint.entity.Entity;
 import io.gomint.entity.EntityPlayer;
 import io.gomint.entity.passive.EntityHuman;
+import io.gomint.math.Location;
+import io.gomint.plugin.injection.InjectPlugin;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Map;
 
-@Name( "spawn" )
+@Name( "slapper spawn" )
 @Description( "Spawn an entity" )
 @Permission( "slapper.spawnentity" )
 
@@ -34,6 +37,9 @@ import java.util.Map;
         @Parameter( name = "ticking", validator = BooleanValidator.class )
 } )
 public class CommandSpawnEntity extends Command {
+
+    @InjectPlugin
+    private Slapper plugin;
 
     @Override
     public CommandOutput execute( CommandSender commandSender, String s, Map<String, Object> map ) {
@@ -71,9 +77,6 @@ public class CommandSpawnEntity extends Command {
                         e.printStackTrace();
                     }
 
-                    player.sendMessage( String.valueOf( player.getYaw() ) );
-                    player.sendMessage( String.valueOf( player.getHeadYaw() ) );
-
                     SlapperData slapperData = SlapperData.builder()
                             .entityClass( entityHuman.getClass().getSimpleName() )
                             .world( entityHuman.getWorld().getWorldName() )
@@ -95,17 +98,37 @@ public class CommandSpawnEntity extends Command {
                             .bootsClassName( entityHuman.getArmorInventory().getBoots().getClass().getSimpleName() )
                             .build();
 
-                    Slapper.getInstance().getConfig().getSlapperData().add( slapperData );
-                    Slapper.getInstance().getConfig().saveFile( Slapper.getInstance() );
-                    Slapper.getInstance().getSlapperManager().getSlapperDataMap().put( entityHuman.getEntityId(), slapperData );
+                    this.plugin.getConfig().getSlapperData().add( slapperData );
+                    this.plugin.getConfig().saveFile( Slapper.getInstance() );
+                    this.plugin.getSlapperManager().getSlapperDataMap().put( entityHuman.getEntityId(), slapperData );
 
                 } else {
                     if ( map.containsKey( "nameTag" ) ) {
                         String nameTag = (String) map.get( "nameTag" );
-                        entity.setNameTag( nameTag );
-                        entity.setNameTagAlwaysVisible( true );
+                        FloatingText floatingText = new FloatingText();
+                        floatingText.setTitle( nameTag );
+                        floatingText.setLocation( new Location( player.getWorld(), player.getPositionX(), player.getPositionY(), player.getPositionZ(), player.getHeadYaw(), player.getYaw(), player.getPitch() ) );
+                        floatingText.create();
                     }
                     entity.spawn( player.getLocation() );
+
+                    SlapperData slapperData = SlapperData.builder()
+                            .entityClass( entity.getClass().getSimpleName() )
+                            .world( entity.getWorld().getWorldName() )
+                            .x( entity.getPositionX() )
+                            .y( entity.getPositionY() )
+                            .z( entity.getPositionZ() )
+                            .yaw( entity.getYaw() )
+                            .headYaw( entity.getHeadYaw() )
+                            .pitch( entity.getPitch() )
+                            .nameTag( entity.getNameTag() )
+                            .showNameTag( entity.isNameTagAlwaysVisible() )
+                            .ticking( entity.isTicking() )
+                            .build();
+
+                    this.plugin.getConfig().getSlapperData().add( slapperData );
+                    this.plugin.getConfig().saveFile( Slapper.getInstance() );
+                    this.plugin.getSlapperManager().getSlapperDataMap().put( entity.getEntityId(), slapperData );
                 }
 
             } catch ( ClassNotFoundException e ) {

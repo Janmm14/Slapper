@@ -3,11 +3,13 @@ package de.slapper.api.floatingtext;
 import io.gomint.entity.passive.EntityHuman;
 import io.gomint.math.Location;
 import io.gomint.player.PlayerSkin;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
 public class FloatingText {
 
     protected EntityHuman human;

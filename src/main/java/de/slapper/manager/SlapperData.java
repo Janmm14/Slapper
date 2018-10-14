@@ -5,6 +5,7 @@ import io.gomint.server.entity.EntityType;
 import lombok.*;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class SlapperData extends YamlConfig {

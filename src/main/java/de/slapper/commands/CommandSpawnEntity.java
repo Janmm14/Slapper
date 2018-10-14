@@ -2,6 +2,7 @@ package de.slapper.commands;
 
 import de.slapper.Slapper;
 import de.slapper.api.floatingtext.FloatingText;
+import de.slapper.event.PlayerSpawnSlapperEntity;
 import de.slapper.manager.SlapperData;
 import io.gomint.GoMint;
 import io.gomint.command.Command;
@@ -54,81 +55,88 @@ public class CommandSpawnEntity extends Command {
 
                 if ( entity instanceof EntityHuman ) {
                     EntityHuman entityHuman = (EntityHuman) entity;
-                    if ( map.containsKey( "nameTag" ) ) {
-                        String nameTag = (String) map.get( "nameTag" );
-                        entityHuman.setNameTag( nameTag );
-                        entityHuman.setNameTagAlwaysVisible( true );
+                    PlayerSpawnSlapperEntity playerSpawnSlapperEntity = this.plugin.getPluginManager().callEvent( new PlayerSpawnSlapperEntity( player, entityHuman ) );
+                    if ( !playerSpawnSlapperEntity.isCancelled() ) {
+                        if ( map.containsKey( "nameTag" ) ) {
+                            String nameTag = (String) map.get( "nameTag" );
+                            entityHuman.setNameTag( nameTag );
+                            entityHuman.setNameTagAlwaysVisible( true );
+                        }
+                        entityHuman.setSkin( player.getSkin() );
+                        entityHuman.setTicking( map.containsKey( "ticking" ) ? (boolean) map.get( "ticking" ) : true );
+                        entityHuman.setSneaking( player.isSneaking() );
+                        entityHuman.getArmorInventory().setHelmet( player.getArmorInventory().getHelmet() );
+                        entityHuman.getArmorInventory().setChestplate( player.getArmorInventory().getChestplate() );
+                        entityHuman.getArmorInventory().setLeggings( player.getArmorInventory().getLeggings() );
+                        entityHuman.getArmorInventory().setBoots( player.getArmorInventory().getBoots() );
+                        entityHuman.getInventory().setItem( player.getInventory().getItemInHandSlot(), player.getInventory().getItemInHand() );
+                        entityHuman.spawn( player.getLocation() );
+
+                        try {
+                            File skinFolder = new File( Slapper.getInstance().getDataFolder() + "/skins" );
+                            if ( !skinFolder.exists() ) skinFolder.mkdirs();
+                            player.getSkin().saveSkinTo( new FileOutputStream( new File( Slapper.getInstance().getDataFolder() + "/skins", entityHuman.getNameTag() + ".png" ) ) );
+                        } catch ( IOException e ) {
+                            e.printStackTrace();
+                        }
+
+                        SlapperData slapperData = SlapperData.builder()
+                                .entityClass( entityHuman.getClass().getSimpleName() )
+                                .world( entityHuman.getWorld().getWorldName() )
+                                .x( entityHuman.getPositionX() )
+                                .y( entityHuman.getPositionY() )
+                                .z( entityHuman.getPositionZ() )
+                                .yaw( entityHuman.getYaw() )
+                                .headYaw( entityHuman.getHeadYaw() )
+                                .pitch( entityHuman.getPitch() )
+                                .nameTag( entityHuman.getNameTag() )
+                                .showNameTag( entityHuman.isNameTagAlwaysVisible() )
+                                .ticking( entityHuman.isTicking() )
+                                .sneaking( entityHuman.isSneaking() )
+                                .skinName( entityHuman.getNameTag() )
+                                .itemCalssName( entityHuman.getInventory().getItemInHand().getClass().getSimpleName() )
+                                .helemtClassName( entityHuman.getArmorInventory().getHelmet().getClass().getSimpleName() )
+                                .chestplateClassName( entityHuman.getArmorInventory().getChestplate().getClass().getSimpleName() )
+                                .leggingsClassName( entityHuman.getArmorInventory().getLeggings().getClass().getSimpleName() )
+                                .bootsClassName( entityHuman.getArmorInventory().getBoots().getClass().getSimpleName() )
+                                .build();
+
+                        this.plugin.getConfig().getSlapperData().add( slapperData );
+                        this.plugin.getConfig().saveFile( Slapper.getInstance() );
+                        this.plugin.getSlapperManager().getSlapperDataMap().put( entityHuman.getEntityId(), slapperData );
                     }
-                    entityHuman.setSkin( player.getSkin() );
-                    entityHuman.setTicking( map.containsKey( "ticking" ) ? (boolean) map.get( "ticking" ) : true );
-                    entityHuman.setSneaking( player.isSneaking() );
-                    entityHuman.getArmorInventory().setHelmet( player.getArmorInventory().getHelmet() );
-                    entityHuman.getArmorInventory().setChestplate( player.getArmorInventory().getChestplate() );
-                    entityHuman.getArmorInventory().setLeggings( player.getArmorInventory().getLeggings() );
-                    entityHuman.getArmorInventory().setBoots( player.getArmorInventory().getBoots() );
-                    entityHuman.getInventory().setItem( player.getInventory().getItemInHandSlot(), player.getInventory().getItemInHand() );
-                    entityHuman.spawn( player.getLocation() );
-
-                    try {
-                        File skinFolder = new File( Slapper.getInstance().getDataFolder() + "/skins" );
-                        if ( !skinFolder.exists() ) skinFolder.mkdirs();
-                        player.getSkin().saveSkinTo( new FileOutputStream( new File( Slapper.getInstance().getDataFolder() + "/skins", entityHuman.getNameTag() + ".png" ) ) );
-                    } catch ( IOException e ) {
-                        e.printStackTrace();
-                    }
-
-                    SlapperData slapperData = SlapperData.builder()
-                            .entityClass( entityHuman.getClass().getSimpleName() )
-                            .world( entityHuman.getWorld().getWorldName() )
-                            .x( entityHuman.getPositionX() )
-                            .y( entityHuman.getPositionY() )
-                            .z( entityHuman.getPositionZ() )
-                            .yaw( entityHuman.getYaw() )
-                            .headYaw( entityHuman.getHeadYaw() )
-                            .pitch( entityHuman.getPitch() )
-                            .nameTag( entityHuman.getNameTag() )
-                            .showNameTag( entityHuman.isNameTagAlwaysVisible() )
-                            .ticking( entityHuman.isTicking() )
-                            .sneaking( entityHuman.isSneaking() )
-                            .skinName( entityHuman.getNameTag() )
-                            .itemCalssName( entityHuman.getInventory().getItemInHand().getClass().getSimpleName() )
-                            .helemtClassName( entityHuman.getArmorInventory().getHelmet().getClass().getSimpleName() )
-                            .chestplateClassName( entityHuman.getArmorInventory().getChestplate().getClass().getSimpleName() )
-                            .leggingsClassName( entityHuman.getArmorInventory().getLeggings().getClass().getSimpleName() )
-                            .bootsClassName( entityHuman.getArmorInventory().getBoots().getClass().getSimpleName() )
-                            .build();
-
-                    this.plugin.getConfig().getSlapperData().add( slapperData );
-                    this.plugin.getConfig().saveFile( Slapper.getInstance() );
-                    this.plugin.getSlapperManager().getSlapperDataMap().put( entityHuman.getEntityId(), slapperData );
 
                 } else {
-                    if ( map.containsKey( "nameTag" ) ) {
-                        String nameTag = (String) map.get( "nameTag" );
-                        FloatingText floatingText = new FloatingText();
-                        floatingText.setTitle( nameTag );
-                        floatingText.setLocation( new Location( player.getWorld(), player.getPositionX(), player.getPositionY(), player.getPositionZ(), player.getHeadYaw(), player.getYaw(), player.getPitch() ) );
-                        floatingText.create();
+                    PlayerSpawnSlapperEntity playerSpawnSlapperEntity = this.plugin.getPluginManager().callEvent( new PlayerSpawnSlapperEntity( player, entity ) );
+                    if ( !playerSpawnSlapperEntity.isCancelled() ) {
+                        if ( map.containsKey( "nameTag" ) ) {
+                            String nameTag = (String) map.get( "nameTag" );
+                            FloatingText floatingText = new FloatingText();
+                            floatingText.setTitle( nameTag );
+                            floatingText.setLocation( new Location( player.getWorld(), player.getPositionX(), player.getPositionY(), player.getPositionZ(), player.getHeadYaw(), player.getYaw(), player.getPitch() ) );
+                            floatingText.create();
+                            this.plugin.getSlapperManager().getFloatingTextMap().put( entity.getEntityId(), floatingText );
+                        }
+                        entity.spawn( player.getLocation() );
+
+                        SlapperData slapperData = SlapperData.builder()
+                                .entityClass( entity.getClass().getSimpleName() )
+                                .world( entity.getWorld().getWorldName() )
+                                .x( entity.getPositionX() )
+                                .y( entity.getPositionY() )
+                                .z( entity.getPositionZ() )
+                                .yaw( entity.getYaw() )
+                                .headYaw( entity.getHeadYaw() )
+                                .pitch( entity.getPitch() )
+                                .nameTag( entity.getNameTag() )
+                                .showNameTag( entity.isNameTagAlwaysVisible() )
+                                .ticking( entity.isTicking() )
+                                .build();
+
+                        this.plugin.getConfig().getSlapperData().add( slapperData );
+                        this.plugin.getConfig().saveFile( Slapper.getInstance() );
+                        this.plugin.getSlapperManager().getSlapperDataMap().put( entity.getEntityId(), slapperData );
                     }
-                    entity.spawn( player.getLocation() );
-
-                    SlapperData slapperData = SlapperData.builder()
-                            .entityClass( entity.getClass().getSimpleName() )
-                            .world( entity.getWorld().getWorldName() )
-                            .x( entity.getPositionX() )
-                            .y( entity.getPositionY() )
-                            .z( entity.getPositionZ() )
-                            .yaw( entity.getYaw() )
-                            .headYaw( entity.getHeadYaw() )
-                            .pitch( entity.getPitch() )
-                            .nameTag( entity.getNameTag() )
-                            .showNameTag( entity.isNameTagAlwaysVisible() )
-                            .ticking( entity.isTicking() )
-                            .build();
-
-                    this.plugin.getConfig().getSlapperData().add( slapperData );
-                    this.plugin.getConfig().saveFile( Slapper.getInstance() );
-                    this.plugin.getSlapperManager().getSlapperDataMap().put( entity.getEntityId(), slapperData );
                 }
 
             } catch ( ClassNotFoundException e ) {

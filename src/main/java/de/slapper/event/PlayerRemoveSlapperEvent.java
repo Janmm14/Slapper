@@ -10,11 +10,9 @@ import lombok.Getter;
 public class PlayerRemoveSlapperEvent extends CancellablePlayerEvent {
 
     private Entity entity;
-    private EntityType types;
 
-    public PlayerRemoveSlapperEvent( EntityPlayer player, Entity entity, EntityType types ) {
+    public PlayerRemoveSlapperEvent( EntityPlayer player, Entity entity ) {
         super( player );
         this.entity = entity;
-        this.types = types;
     }
 }

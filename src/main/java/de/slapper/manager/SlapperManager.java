@@ -31,6 +31,8 @@ public class SlapperManager {
 
     @Getter
     private Map<Long, SlapperData> slapperDataMap = new HashMap<>();
+    @Getter
+    private Map<Long, FloatingText> floatingTextMap = new HashMap<>();
 
     public void loadEntitys(){
         for( SlapperData slapperData : this.plugin.getConfig().getSlapperData() ){
@@ -71,6 +73,7 @@ public class SlapperManager {
                         floatingText.setTitle( slapperData.getNameTag() );
                         floatingText.setLocation( new Location( GoMint.instance().getWorld( slapperData.getWorld() ), slapperData.getX(), (float) (slapperData.getY() + entity.getEyeHeight() * 1.7), slapperData.getZ(), slapperData.getYaw(), slapperData.getPitch()) );
                         floatingText.create();
+                        this.floatingTextMap.put( entity.getEntityId(), floatingText );
                     }
                     entity.setTicking( slapperData.isTicking() );
                     entity.spawn( new Location( GoMint.instance().getWorld( slapperData.getWorld() ), slapperData.getX(), slapperData.getY(), slapperData.getZ(), slapperData.getYaw(), slapperData.getPitch()) );

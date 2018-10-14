@@ -21,9 +21,6 @@ import java.util.Locale;
 public class Slapper extends Plugin {
 
     @Getter
-    private static Slapper instance;
-
-    @Getter
     private LocaleManager localeManager;
 
     @Getter
@@ -35,7 +32,6 @@ public class Slapper extends Plugin {
 
     @Override
     public void onInstall() {
-        instance = this;
 
         this.saveFile( this.getResourceAsStream( "de_DE.properties" ), new File( this.getDataFolder().getAbsolutePath() + "/languages", "de_DE.properties" ) );
         this.saveFile( this.getResourceAsStream( "en_US.properties" ), new File( this.getDataFolder().getAbsolutePath() + "/languages", "en_US.properties" ) );
@@ -53,7 +49,7 @@ public class Slapper extends Plugin {
         this.slapperManager.loadEntitys();
 
 
-       this.registerListener( new EntityDamageByEntityListener() );
+       this.registerListener( new EntityDamageByEntityListener( this ) );
        this.registerListener( new PlayerJoinListener() );
     }
 

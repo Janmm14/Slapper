@@ -50,7 +50,7 @@ public class CommandSpawnEntity extends Command {
             EntityPlayer player = (EntityPlayer) commandSender;
             String entityName = String.valueOf( map.get( "entity" ) );
             try {
-                Class<? extends Entity> clazz = (Class<? extends Entity>) Class.forName( Slapper.getInstance().getSlapperManager().getMobClassPath( entityName ) + "Entity" + entityName );
+                Class<? extends Entity> clazz = (Class<? extends Entity>) Class.forName( this.plugin.getSlapperManager().getMobClassPath( entityName ) + "Entity" + entityName );
                 Entity entity = GoMint.instance().createEntity( clazz );
 
                 if ( entity instanceof EntityHuman ) {
@@ -105,7 +105,7 @@ public class CommandSpawnEntity extends Command {
                                    .build();
 
                            this.plugin.getConfig().getSlapperData().add( slapperData );
-                           this.plugin.getConfig().saveFile( Slapper.getInstance() );
+                           this.plugin.getConfig().saveFile( this.plugin );
                            this.plugin.getSlapperManager().getSlapperDataMap().put( eventHuman.getEntityId(), slapperData );
                        }
                     }
@@ -138,7 +138,7 @@ public class CommandSpawnEntity extends Command {
                                 .build();
 
                         this.plugin.getConfig().getSlapperData().add( slapperData );
-                        this.plugin.getConfig().saveFile( Slapper.getInstance() );
+                        this.plugin.getConfig().saveFile( this.plugin );
                         this.plugin.getSlapperManager().getSlapperDataMap().put( playerSpawnSlapperEntity.getEntity().getEntityId(), slapperData );
                     }
                 }
@@ -147,7 +147,7 @@ public class CommandSpawnEntity extends Command {
                 e.printStackTrace();
             }
         } else {
-            output.fail( Slapper.getInstance().getLocaleManager().translate( "needPlayer" ) );
+            output.fail( this.plugin.getLocaleManager().translate( "needPlayer" ) );
         }
         return output;
     }

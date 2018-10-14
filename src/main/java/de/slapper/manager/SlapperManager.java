@@ -37,7 +37,7 @@ public class SlapperManager {
     public void loadEntitys(){
         for( SlapperData slapperData : this.plugin.getConfig().getSlapperData() ){
             try {
-                Class<? extends Entity> clazz = (Class<? extends Entity>) Class.forName( Slapper.getInstance().getSlapperManager().getMobClassPath( slapperData.getEntityClass().replace( "Entity", "" ) ) + slapperData.getEntityClass() );
+                Class<? extends Entity> clazz = (Class<? extends Entity>) Class.forName( this.plugin.getSlapperManager().getMobClassPath( slapperData.getEntityClass().replace( "Entity", "" ) ) + slapperData.getEntityClass() );
                 Entity entity = GoMint.instance().createEntity( clazz );
 
                 if(entity instanceof EntityHuman){

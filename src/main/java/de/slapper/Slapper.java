@@ -41,7 +41,7 @@ public class Slapper extends Plugin {
         this.saveFile( this.getResourceAsStream( "en_US.properties" ), new File( this.getDataFolder().getAbsolutePath() + "/languages", "en_US.properties" ) );
 
         this.localeManager = new LocaleManager( this );
-        this.localeManager.setDefaultLocale( Locale.US );
+        this.localeManager.setDefaultLocale( Locale.GERMANY );
         this.localeManager.initFromLocaleFolder( new File( this.getDataFolder().getAbsolutePath() + "/language" ) );
 
         this.config = new Config( this );

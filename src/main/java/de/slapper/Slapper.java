@@ -17,7 +17,7 @@ import java.io.InputStream;
 import java.util.Locale;
 
 @PluginName( "Slapper" )
-@Version( major = 2, minor = 0)
+@Version( major = 2, minor = 0 )
 public class Slapper extends Plugin {
 
     @Getter
@@ -43,14 +43,11 @@ public class Slapper extends Plugin {
         this.config = new Config( this );
         this.prefix = this.config.getPrefix();
 
-        //TODO
-
         this.slapperManager = new SlapperManager( this );
         this.slapperManager.loadEntitys();
 
-
-       this.registerListener( new EntityDamageByEntityListener( this ) );
-       this.registerListener( new PlayerJoinListener() );
+        this.registerListener( new EntityDamageByEntityListener( this ) );
+        this.registerListener( new PlayerJoinListener() );
     }
 
     @Override

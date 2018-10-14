@@ -6,7 +6,6 @@ import de.slapper.event.PlayerRemoveSlapperEvent;
 import de.slapper.manager.SlapperData;
 import io.gomint.entity.Entity;
 import io.gomint.entity.EntityPlayer;
-import io.gomint.entity.passive.EntityHuman;
 import io.gomint.event.EventHandler;
 import io.gomint.event.EventListener;
 import io.gomint.event.entity.EntityDamageByEntityEvent;
@@ -35,7 +34,7 @@ public class EntityDamageByEntityListener implements EventListener {
             }
 
             if ( this.plugin.getSlapperManager().getRemoveEntity().contains( player.getUUID() ) ) {
-                if ( !(entity instanceof EntityPlayer) && entity instanceof EntityHuman ) {
+                if ( !(entity instanceof EntityPlayer)) {
                     PlayerRemoveSlapperEvent playerRemoveSlapperEvent = this.plugin.getPluginManager().callEvent( new PlayerRemoveSlapperEvent( player, entity ) );
                     if ( !playerRemoveSlapperEvent.isCancelled() ) {
                         if(slapperData != null && this.plugin.getSlapperManager().getSlapperDataMap().containsValue( slapperData )){

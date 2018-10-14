@@ -44,13 +44,25 @@ public class SlapperManager {
                     entityHuman.setNameTagAlwaysVisible( slapperData.isShowNameTag() );
                     entityHuman.setSneaking( slapperData.isSneaking() );
                     entityHuman.setTicking( slapperData.isTicking() );
+
                     try {
-                        PlayerSkin playerSkin = GoMint.instance().createPlayerSkin(  new FileInputStream(  new File( Slapper.getInstance().getDataFolder() + "/skins" , slapperData.getSkinName() + ".png" )  ) );
+                        PlayerSkin playerSkin = GoMint.instance().createPlayerSkin(  new FileInputStream(  new File( this.plugin.getDataFolder() + "/skins" , slapperData.getSkinName() + ".png" )  ) );
+                        Class itemClass = Class.forName( "io.gomint.inventory.item." + slapperData.getItemCalssName() );
+                        Class helmetClass = Class.forName( "io.gomint.inventory.item." + slapperData.getHelemtClassName() );
+                        Class chestplateClass = Class.forName( "io.gomint.inventory.item." + slapperData.getChestplateClassName() );
+                        Class leggingsClass = Class.forName( "io.gomint.inventory.item." + slapperData.getLeggingsClassName() );
+                        Class bootsClass = Class.forName( "io.gomint.inventory.item." + slapperData.getBootsClassName() );
+
+                        entityHuman.getArmorInventory().setHelmet( GoMint.instance().createItemStack( helmetClass, 1 ) );
+                        entityHuman.getArmorInventory().setChestplate( GoMint.instance().createItemStack( chestplateClass, 1 ) );
+                        entityHuman.getArmorInventory().setLeggings( GoMint.instance().createItemStack( leggingsClass, 1 ) );
+                        entityHuman.getArmorInventory().setBoots( GoMint.instance().createItemStack( bootsClass,1 ) );
+                        entityHuman.getInventory().setItem( 0, GoMint.instance().createItemStack( itemClass, 1 ) );
+
                         entityHuman.setSkin( playerSkin );
-                    } catch ( FileNotFoundException e ) {
+                    } catch ( Exception e ) {
                         e.printStackTrace();
                     }
-
                     entityHuman.spawn( new Location( GoMint.instance().getWorld( slapperData.getWorld() ), slapperData.getX(), slapperData.getY(), slapperData.getZ(), slapperData.getHeadYaw(), slapperData.getYaw(), slapperData.getPitch()) );
                     this.slapperDataMap.put( entityHuman.getEntityId(), slapperData );
                 }else{
@@ -65,6 +77,7 @@ public class SlapperManager {
                 e.printStackTrace();
             }
         }
+        this.plugin.getLogger().info( this.plugin.getLocaleManager().translate( "entitiesLoaded" ) );
     }
 
     public String getMobClassPath( String entityType ) {

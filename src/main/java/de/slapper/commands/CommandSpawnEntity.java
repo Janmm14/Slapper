@@ -35,7 +35,7 @@ import java.util.Map;
                 "FallingBlock", "Horse", "Human", "ItemDrop", "Lama", "Mooshroom", "Mule", "Ocelot", "Parrot", "Pig", "Rabbit", "Sheep", "SkeletonHorse", "Squid", "Turtle", "Villager",
                 "Wolf", "XPOrb", "ZombieHorse", "Arrow", "Enderpearl", "ExpBottle", "FishingHook", "Snowball" } ),
         @Parameter( name = "nameTag", validator = StringValidator.class, arguments = { ".*" }, optional = true ),
-        @Parameter( name = "ticking", validator = BooleanValidator.class )
+        @Parameter( name = "ticking", validator = BooleanValidator.class, optional = true )
 } )
 public class CommandSpawnEntity extends Command {
 
@@ -111,36 +111,41 @@ public class CommandSpawnEntity extends Command {
                     }
 
                 } else {
-                    PlayerSpawnSlapperEntity playerSpawnSlapperEntity = this.plugin.getPluginManager().callEvent( new PlayerSpawnSlapperEntity( player, entity ) );
-                    if ( !playerSpawnSlapperEntity.isCancelled() ) {
-                        if ( map.containsKey( "nameTag" ) ) {
-                            String nameTag = (String) map.get( "nameTag" );
-                            FloatingText floatingText = new FloatingText();
-                            floatingText.setTitle( nameTag );
-                            floatingText.setLocation( new Location( playerSpawnSlapperEntity.getPlayer().getWorld(), playerSpawnSlapperEntity.getPlayer().getPositionX(), playerSpawnSlapperEntity.getPlayer().getPositionY(), playerSpawnSlapperEntity.getPlayer().getPositionZ(), playerSpawnSlapperEntity.getPlayer().getHeadYaw(), playerSpawnSlapperEntity.getPlayer().getYaw(), playerSpawnSlapperEntity.getPlayer().getPitch() ) );
-                            floatingText.create();
-                            this.plugin.getSlapperManager().getFloatingTextMap().put( playerSpawnSlapperEntity.getEntity().getEntityId(), floatingText );
-                        }
-                        playerSpawnSlapperEntity.getEntity().spawn( playerSpawnSlapperEntity.getPlayer().getLocation() );
+                   if(entity != null){
+                       PlayerSpawnSlapperEntity playerSpawnSlapperEntity = this.plugin.getPluginManager().callEvent( new PlayerSpawnSlapperEntity( player, entity ) );
+                       if ( !playerSpawnSlapperEntity.isCancelled() ) {
+                           if ( map.containsKey( "nameTag" ) ) {
+                               String nameTag = (String) map.get( "nameTag" );
+                               FloatingText floatingText = new FloatingText();
+                               floatingText.setTitle( nameTag );
+                               floatingText.setLocation( new Location( playerSpawnSlapperEntity.getPlayer().getWorld(), playerSpawnSlapperEntity.getPlayer().getPositionX(), (float) (playerSpawnSlapperEntity.getPlayer().getPositionY() + entity.getEyeHeight() * 1.7), playerSpawnSlapperEntity.getPlayer().getPositionZ(), playerSpawnSlapperEntity.getPlayer().getHeadYaw(), playerSpawnSlapperEntity.getPlayer().getYaw(), playerSpawnSlapperEntity.getPlayer().getPitch() ) );
+                               floatingText.create();
+                               this.plugin.getSlapperManager().getFloatingTextMap().put( playerSpawnSlapperEntity.getEntity().getEntityId(), floatingText );
+                           }
+                           playerSpawnSlapperEntity.getEntity().setTicking( map.containsKey( "ticking" ) ? (boolean) map.get( "ticking" ) : true );
+                           playerSpawnSlapperEntity.getEntity().spawn( playerSpawnSlapperEntity.getPlayer().getLocation() );
 
-                        SlapperData slapperData = SlapperData.builder()
-                                .entityClass( playerSpawnSlapperEntity.getEntity().getClass().getSimpleName() )
-                                .world( playerSpawnSlapperEntity.getEntity().getWorld().getWorldName() )
-                                .x( playerSpawnSlapperEntity.getEntity().getPositionX() )
-                                .y( playerSpawnSlapperEntity.getEntity().getPositionY() )
-                                .z( playerSpawnSlapperEntity.getEntity().getPositionZ() )
-                                .yaw( playerSpawnSlapperEntity.getEntity().getYaw() )
-                                .headYaw( playerSpawnSlapperEntity.getEntity().getHeadYaw() )
-                                .pitch( playerSpawnSlapperEntity.getEntity().getPitch() )
-                                .nameTag( playerSpawnSlapperEntity.getEntity().getNameTag() )
-                                .showNameTag( playerSpawnSlapperEntity.getEntity().isNameTagAlwaysVisible() )
-                                .ticking( playerSpawnSlapperEntity.getEntity().isTicking() )
-                                .build();
+                           SlapperData slapperData = SlapperData.builder()
+                                   .entityClass( playerSpawnSlapperEntity.getEntity().getClass().getSimpleName() )
+                                   .world( playerSpawnSlapperEntity.getEntity().getWorld().getWorldName() )
+                                   .x( playerSpawnSlapperEntity.getEntity().getPositionX() )
+                                   .y( playerSpawnSlapperEntity.getEntity().getPositionY() )
+                                   .z( playerSpawnSlapperEntity.getEntity().getPositionZ() )
+                                   .yaw( playerSpawnSlapperEntity.getEntity().getYaw() )
+                                   .headYaw( playerSpawnSlapperEntity.getEntity().getHeadYaw() )
+                                   .pitch( playerSpawnSlapperEntity.getEntity().getPitch() )
+                                   .nameTag( map.get( "nameTag" ) != null ? (String) map.get( "nameTag" ) : "" )
+                                   .showNameTag( playerSpawnSlapperEntity.getEntity().isNameTagAlwaysVisible() )
+                                   .ticking( playerSpawnSlapperEntity.getEntity().isTicking() )
+                                   .build();
+                           this.plugin.getConfig().getSlapperData().add( slapperData );
+                           this.plugin.getConfig().saveFile( this.plugin );
+                           this.plugin.getSlapperManager().getSlapperDataMap().put( playerSpawnSlapperEntity.getEntity().getEntityId(), slapperData );
 
-                        this.plugin.getConfig().getSlapperData().add( slapperData );
-                        this.plugin.getConfig().saveFile( this.plugin );
-                        this.plugin.getSlapperManager().getSlapperDataMap().put( playerSpawnSlapperEntity.getEntity().getEntityId(), slapperData );
-                    }
+                           //Debug
+                           System.out.println(playerSpawnSlapperEntity.getEntity().getEntityId());
+                       }
+                   }
                 }
 
             } catch ( ClassNotFoundException e ) {

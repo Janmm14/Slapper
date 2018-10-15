@@ -149,7 +149,7 @@ public class CommandSpawnEntity extends Command {
                 e.printStackTrace();
             }
         } else {
-            output.fail( this.plugin.getLocaleManager().translate( "needPlayer" ) );
+            output.fail( this.plugin.getPrefix() + this.plugin.getLocaleManager().translate( "needPlayer" ) );
         }
         return output;
     }

@@ -30,14 +30,14 @@ public class CommandRemoveEntity extends Command {
 
             if ( !this.plugin.getSlapperManager().getRemoveEntity().contains( player.getUUID() ) ) {
                 this.plugin.getSlapperManager().getRemoveEntity().add( player.getUUID() );
-                output.success( this.plugin.getLocaleManager().translate( player.getLocale(), "canRemoveEntity" ) );
+                output.success( this.plugin.getPrefix() + this.plugin.getLocaleManager().translate( player.getLocale(), "canRemoveEntity" ) );
             } else {
                 this.plugin.getSlapperManager().getRemoveEntity().remove( player.getUUID() );
-                output.success( this.plugin.getLocaleManager().translate( player.getLocale(), "cantRemoveEntity" ) );
+                output.success( this.plugin.getPrefix() + this.plugin.getLocaleManager().translate( player.getLocale(), "cantRemoveEntity" ) );
             }
 
         } else {
-            output.fail( this.plugin.getLocaleManager().translate( "needPlayer" ) );
+            output.fail( this.plugin.getPrefix() + this.plugin.getLocaleManager().translate( "needPlayer" ) );
         }
 
         return output;

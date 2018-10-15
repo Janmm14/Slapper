@@ -84,7 +84,8 @@ public class SlapperManager {
                 e.printStackTrace();
             }
         }
-        this.plugin.getLogger().info( this.plugin.getLocaleManager().translate( "entitiesLoaded" ) );
+        if(this.plugin.getSlapperManager().getSlapperDataMap().size() > 0)
+            this.plugin.getLogger().info( this.plugin.getLocaleManager().translate( "entitiesLoaded" ) );
     }
 
     public String getMobClassPath( String entityType ) {

@@ -141,9 +141,6 @@ public class CommandSpawnEntity extends Command {
                            this.plugin.getConfig().getSlapperData().add( slapperData );
                            this.plugin.getConfig().saveFile( this.plugin );
                            this.plugin.getSlapperManager().getSlapperDataMap().put( playerSpawnSlapperEntity.getEntity().getEntityId(), slapperData );
-
-                           //Debug
-                           System.out.println(playerSpawnSlapperEntity.getEntity().getEntityId());
                        }
                    }
                 }

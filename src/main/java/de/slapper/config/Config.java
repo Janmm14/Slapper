@@ -32,6 +32,12 @@ public class Config extends YamlConfig {
     @Getter
     private List<SlapperData> slapperData = new ArrayList<>();
 
+    /**
+     * Save the config file
+     *
+     * @param plugin is the main class.
+     */
+
     public void saveFile( Slapper plugin ) {
         try {
             this.save( new File( plugin.getDataFolder(), "config.yml" ) );

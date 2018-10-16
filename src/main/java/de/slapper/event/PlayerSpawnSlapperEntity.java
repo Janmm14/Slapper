@@ -11,6 +11,13 @@ public class PlayerSpawnSlapperEntity extends CancellablePlayerEvent {
 
     private Entity entity;
 
+    /**
+     * Create a new spawn slapper event
+     *
+     * @param player which spawns the entity
+     * @param entity what is spawned
+     */
+
     public PlayerSpawnSlapperEntity( EntityPlayer player, Entity entity ) {
         super( player );
         this.entity = entity;

@@ -55,6 +55,13 @@ public class Slapper extends Plugin {
 
     }
 
+    /**
+     * Save the file from recource folder
+     *
+     * @param resourceInputStream where the resource file is located
+     * @param languageFile where the file is stored
+     */
+
     private void saveFile( InputStream resourceInputStream, File languageFile ) {
         if ( !languageFile.exists() ) {
             try {

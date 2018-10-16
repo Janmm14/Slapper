@@ -16,10 +16,21 @@ public class FloatingText {
     private String title;
     private Location location;
 
+    /**
+     * Constructor
+     *
+     * @param title is the text from the floatingtext
+     * @param location where the floating text will be spawned
+     */
+
     public FloatingText( String title, Location location ) {
         this.title = title;
         this.location = location;
     }
+
+    /**
+     * Create the floatingtext
+     */
 
     public void create(){
         if(title != null && location != null){
@@ -32,6 +43,10 @@ public class FloatingText {
             human.spawn( location );
         }
     }
+
+    /**
+     * Remove the floatingtext
+     */
 
     public void remove(){
         human.despawn();

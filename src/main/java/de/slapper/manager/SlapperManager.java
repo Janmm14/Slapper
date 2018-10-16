@@ -34,6 +34,10 @@ public class SlapperManager {
     @Getter
     private Map<Long, FloatingText> floatingTextMap = new HashMap<>();
 
+    /**
+     * Loads all entitys while the server loads
+     */
+
     public void loadEntitys(){
         for( SlapperData slapperData : this.plugin.getConfig().getSlapperData() ){
             try {
@@ -87,6 +91,13 @@ public class SlapperManager {
         if(this.plugin.getSlapperManager().getSlapperDataMap().size() > 0)
             this.plugin.getLogger().info( this.plugin.getLocaleManager().translate( "entitiesLoaded" ) );
     }
+
+    /**
+     *
+     * @param entityType is the entity class name
+     *
+     * @return the current entity package path
+     */
 
     public String getMobClassPath( String entityType ) {
 

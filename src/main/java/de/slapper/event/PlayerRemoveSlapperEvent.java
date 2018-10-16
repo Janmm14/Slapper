@@ -11,6 +11,13 @@ public class PlayerRemoveSlapperEvent extends CancellablePlayerEvent {
 
     private Entity entity;
 
+    /**
+     * Create a new slapper remove event
+     *
+     * @param player which removes the entity
+     * @param entity which is removed
+     */
+
     public PlayerRemoveSlapperEvent( EntityPlayer player, Entity entity ) {
         super( player );
         this.entity = entity;

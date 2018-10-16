@@ -10,6 +10,13 @@ public class PlayerHitSlapperEvent extends CancellablePlayerEvent {
 
     private Entity entity;
 
+    /**
+     * Create a new slapper hit event
+     *
+     * @param player which hits the entity
+     * @param entity what is hit
+     */
+
     public PlayerHitSlapperEvent( EntityPlayer player, Entity entity ) {
         super( player );
         this.entity = entity;

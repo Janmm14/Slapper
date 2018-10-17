@@ -47,7 +47,9 @@ public class Slapper extends Plugin {
         this.slapperManager.loadEntitys();
 
         this.registerListener( new EntityDamageByEntityListener( this ) );
-        this.registerListener( new PlayerJoinListener() );
+
+        // Only for test
+       // this.registerListener( new PlayerJoinListener() );
     }
 
     @Override

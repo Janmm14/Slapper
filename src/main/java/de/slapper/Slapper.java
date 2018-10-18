@@ -2,7 +2,6 @@ package de.slapper;
 
 import de.slapper.config.Config;
 import de.slapper.listener.EntityDamageByEntityListener;
-import de.slapper.listener.PlayerJoinListener;
 import de.slapper.manager.SlapperManager;
 import io.gomint.i18n.LocaleManager;
 import io.gomint.plugin.Plugin;

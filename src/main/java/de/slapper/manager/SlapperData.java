@@ -1,8 +1,10 @@
 package de.slapper.manager;
 
 import io.gomint.config.YamlConfig;
-import io.gomint.server.entity.EntityType;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder

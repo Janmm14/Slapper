@@ -1,21 +1,16 @@
 package de.slapper.manager;
 
 import de.slapper.Slapper;
-import de.slapper.event.PlayerSpawnSlapperEntity;
 import de.slapper.api.floatingtext.FloatingText;
 import io.gomint.GoMint;
 import io.gomint.entity.Entity;
-import io.gomint.entity.EntityPlayer;
-import io.gomint.entity.monster.*;
-import io.gomint.entity.passive.*;
-import io.gomint.inventory.item.ItemStack;
+import io.gomint.entity.passive.EntityHuman;
 import io.gomint.math.Location;
 import io.gomint.player.PlayerSkin;
-import io.gomint.server.entity.EntityType;
-import io.gomint.world.World;
 import lombok.Getter;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.*;
 
 public class SlapperManager {

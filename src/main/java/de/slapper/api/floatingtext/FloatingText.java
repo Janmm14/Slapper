@@ -4,9 +4,7 @@ import io.gomint.entity.passive.EntityHuman;
 import io.gomint.math.Location;
 import io.gomint.player.PlayerSkin;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Data
 @NoArgsConstructor

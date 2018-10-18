@@ -36,12 +36,12 @@ public class Slapper extends Plugin {
         this.saveFile( this.getResourceAsStream( "de_DE.properties" ), new File( this.getDataFolder().getAbsolutePath() + "/languages", "de_DE.properties" ) );
         this.saveFile( this.getResourceAsStream( "en_US.properties" ), new File( this.getDataFolder().getAbsolutePath() + "/languages", "en_US.properties" ) );
 
-        this.localeManager = new LocaleManager( this );
-        this.localeManager.setDefaultLocale( Locale.GERMANY );
-        this.localeManager.initFromLocaleFolder( new File( this.getDataFolder().getAbsolutePath() + "/language" ) );
-
         this.config = new Config( this );
         this.prefix = this.config.getPrefix();
+
+        this.localeManager = new LocaleManager( this );
+        this.localeManager.setDefaultLocale( Locale.forLanguageTag( this.config.getDefaultLocale() ) );
+        this.localeManager.initFromLocaleFolder( new File( this.getDataFolder().getAbsolutePath() + "/language" ) );
 
         this.slapperManager = new SlapperManager( this );
         this.slapperManager.loadEntitys();

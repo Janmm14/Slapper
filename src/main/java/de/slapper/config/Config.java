@@ -15,7 +15,7 @@ public class Config extends YamlConfig {
 
     public Config( Slapper plugin ) {
         try {
-            this.init( new File( plugin.getDataFolder(), "config.yml" ));
+            this.init( new File( plugin.getDataFolder(), "config.yml" ) );
         } catch ( InvalidConfigurationException e ) {
             e.printStackTrace();
         }
@@ -23,6 +23,10 @@ public class Config extends YamlConfig {
 
     @Getter
     private String prefix = "§f[§eSlapper§f] ";
+
+    @Comment( "Here you can set the default locale" )
+    @Getter
+    private String defaultLocale = "GERMANY";
 
     @Comment( "Here you can activate or deactivate permissions" )
     @Getter

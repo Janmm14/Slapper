@@ -26,7 +26,7 @@ public class SlapperData extends YamlConfig {
     private boolean ticking;
     private boolean sneaking;
     private String skinName;
-    private String itemCalssName;
+    private String itemClassName;
     private String helemtClassName;
     private String chestplateClassName;
     private String leggingsClassName;

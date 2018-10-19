@@ -8,6 +8,13 @@
     <artifactId>Slapper</artifactId>
     <version>2.0</version>
 
+    <repositories>
+        <repository>
+            <id>GoMint-public</id>
+            <url>https://repo.gomint.io/content/groups/public</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>io.gomint</groupId>
@@ -22,13 +29,6 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-
-    <repositories>
-        <repository>
-            <id>GoMint-public</id>
-            <url>https://repo.gomint.io/content/groups/public</url>
-        </repository>
-    </repositories>
 
     <build>
         <defaultGoal>clean package</defaultGoal>

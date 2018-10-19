@@ -16,12 +16,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>io.gomint</groupId>
-            <artifactId>gomint-server</artifactId>
-            <version>LATEST</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.16.18</version>

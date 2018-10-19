@@ -1,4 +1,4 @@
-package de.slapper.commands;
+package de.slapper.command;
 
 import de.slapper.Slapper;
 import io.gomint.command.Command;

@@ -31,7 +31,7 @@
 
     <repositories>
         <repository>
-            <id>jGoMint-public</id>
+            <id>GoMint-public</id>
             <url>https://repo.gomint.io/content/groups/public</url>
         </repository>
     </repositories>

@@ -20,6 +20,7 @@ public class SlapperData extends YamlConfig {
     private float yaw;
     private float headYaw;
     private float pitch;
+    private float scale;
     private String nameTag;
     private boolean showNameTag;
     private boolean ticking;

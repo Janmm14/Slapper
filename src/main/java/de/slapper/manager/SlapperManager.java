@@ -24,6 +24,8 @@ public class SlapperManager {
     @Getter
     private List<UUID> removeEntity = new ArrayList<>();
     @Getter
+    private Map<UUID, Entity> entityScaleMap = new HashMap<>();
+    @Getter
     private Map<UUID, Float> scaleData = new HashMap<>();
 
     @Getter
@@ -49,7 +51,7 @@ public class SlapperManager {
                     entityHuman.setTicking( slapperData.isTicking() );
                     try {
                         PlayerSkin playerSkin = GoMint.instance().createPlayerSkin(  new FileInputStream(  new File( this.plugin.getDataFolder() + "/skins" , slapperData.getSkinName() + ".png" )  ) );
-                        Class itemClass = Class.forName( "io.gomint.inventory.item." + slapperData.getItemCalssName() );
+                        Class itemClass = Class.forName( "io.gomint.inventory.item." + slapperData.getItemClassName() );
                         Class helmetClass = Class.forName( "io.gomint.inventory.item." + slapperData.getHelemtClassName() );
                         Class chestplateClass = Class.forName( "io.gomint.inventory.item." + slapperData.getChestplateClassName() );
                         Class leggingsClass = Class.forName( "io.gomint.inventory.item." + slapperData.getLeggingsClassName() );

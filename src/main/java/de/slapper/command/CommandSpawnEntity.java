@@ -27,7 +27,6 @@ import java.util.Map;
 @Name( "slapper spawn" )
 @Description( "Spawn an entity" )
 @Permission( "slapper.spawnentity" )
-
 @Overload( {
         @Parameter( name = "entity", validator = EnumValidator.class, arguments = { "PrimedTNT", "Blaze", "CaveSpider", "Cod", "Creeper", "Drowned", "ElderGuardian", "EnderDragon",
                 "Enderman", "Endermite", "Evoker", "Ghast", "Guardian", "Husk", "MagmaCube", "PolarBear", "Pufferfish", "Salmon", "Shulker", "Silverfish", "Skeleton", "Slime", "Spider",
@@ -94,12 +93,13 @@ public class CommandSpawnEntity extends Command {
                                         .yaw( eventHuman.getYaw() )
                                         .headYaw( eventHuman.getHeadYaw() )
                                         .pitch( eventHuman.getPitch() )
+                                        .scale( entityHuman.getScale() )
                                         .nameTag( eventHuman.getNameTag() )
                                         .showNameTag( eventHuman.isNameTagAlwaysVisible() )
                                         .ticking( eventHuman.isTicking() )
                                         .sneaking( eventHuman.isSneaking() )
                                         .skinName( eventHuman.getNameTag() )
-                                        .itemCalssName( eventHuman.getInventory().getItemInHand().getClass().getSimpleName() )
+                                        .itemClassName( eventHuman.getInventory().getItemInHand().getClass().getSimpleName() )
                                         .helemtClassName( eventHuman.getArmorInventory().getHelmet().getClass().getSimpleName() )
                                         .chestplateClassName( eventHuman.getArmorInventory().getChestplate().getClass().getSimpleName() )
                                         .leggingsClassName( eventHuman.getArmorInventory().getLeggings().getClass().getSimpleName() )
@@ -136,6 +136,7 @@ public class CommandSpawnEntity extends Command {
                                         .yaw( playerSpawnSlapperEntity.getEntity().getYaw() )
                                         .headYaw( playerSpawnSlapperEntity.getEntity().getHeadYaw() )
                                         .pitch( playerSpawnSlapperEntity.getEntity().getPitch() )
+                                        .scale( playerSpawnSlapperEntity.getEntity().getScale() )
                                         .nameTag( map.get( "nameTag" ) != null ? (String) map.get( "nameTag" ) : "" )
                                         .showNameTag( playerSpawnSlapperEntity.getEntity().isNameTagAlwaysVisible() )
                                         .ticking( playerSpawnSlapperEntity.getEntity().isTicking() )
